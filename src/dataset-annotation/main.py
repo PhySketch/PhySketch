@@ -12,6 +12,8 @@ import os
 
 def main():
     parser = argparse.ArgumentParser(description='Ferramenta de anotação do PhySketch Dataset')
+    parser.add_argument("-a", "--annotator", help="Executa processo de anotação", action='store_true')
+    parser.add_argument("-c", "--cropper", help="Executa processo de recorte de base", action='store_true')
     parser.add_argument("-i", "--input", help="Pasta contendo estrutura /Dataset", required=True)
     parser.add_argument("-s", "--startAt", help="Pula -s imagens",default=0,type=int)
     #parser.add_argument("-o", "--output", help="Pasta de destino", required=True)
@@ -29,10 +31,16 @@ def main():
     else:
         log.basicConfig(format="%(levelname)s: %(message)s")
 
-    import anotacao as an
-    ant = an.Annotator()
-
-    ant.run()
+    if args.annotator:
+        import annotator as an
+        ant = an.Annotator()
+        ant.run()
+    elif args.cropper:
+        import cropper as cr
+        ant = cr.Cropper()
+        ant.run()
+    else:
+        log.error("ERRO: SELECIONE UM PROCESSO")
 
 
 
