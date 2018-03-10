@@ -20,7 +20,7 @@ def main():
     parser.add_argument("-v", "--verbose", help="Verbose", action='store_true')
     args = parser.parse_args()
 
-    cfg.INPUT_DIR = os.path.join(args.input, "raw")
+
     cfg.OUTPUT_DIR = os.path.join(args.input, "annotated")
     cfg.OUTPUT_CROP_DIR = os.path.join(args.input, "cropped")
     cfg.START_AT = args.startAt
@@ -33,10 +33,12 @@ def main():
 
     if args.annotator:
         import annotator as an
+        cfg.INPUT_DIR = os.path.join(args.input, "cropped")
         ant = an.Annotator()
         ant.run()
     elif args.cropper:
         import cropper as cr
+        cfg.INPUT_DIR = os.path.join(args.input, "raw")
         ant = cr.Cropper()
         ant.run()
     else:

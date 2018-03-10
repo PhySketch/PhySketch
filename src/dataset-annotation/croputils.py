@@ -35,6 +35,9 @@ class Point(object):
     # Generating a string representation of a Point object
     def __str__(self):
         return '(%g, %g)' % (self.x, self.y)
+
+    def __repr__(self):
+            return '(%g, %g)' % (self.x, self.y)
         # return '(' + str(self.x) + ', ' + str(self.y) + ')'
 
     # Special names methods. . .

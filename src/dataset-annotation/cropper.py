@@ -107,7 +107,7 @@ class Sample:
         self.cropped = False
         self.crop_image_list = []
 
-    def annotate(self):
+    def crop(self):
 
         #Le Imagem
         self.imageOriginal = cv.imread(self.path, cv.IMREAD_COLOR)
@@ -210,7 +210,7 @@ class Cropper:
 
         for i,sample in enumerate(self.listSamples):
             if i > cfg.START_AT:
-                if sample.annotate() != True:
+                if sample.crop() != True:
                     break
 
         cv.waitKey(1)

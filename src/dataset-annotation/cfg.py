@@ -14,6 +14,21 @@ IMAGEM_RECORTADA_STR = 'Imagem Recortada - '
 IMAGEM_ORIGINAL_STR = "Imagem Original - "
 START_AT = 0
 
+
+TIPO_CIRCULO =  1
+TIPO_QUADRADO = 2
+TIPO_TRI_EQUI = 3
+TIPO_TRI_RET =  4
+TIPO_TRI_ESC =  5
+TIPO_P_FIXO =   6
+TIPO_VETOR =    7
+TIPO_CORDA =    8
+TIPO_P_ROTA =   9
+
+KEYS_TIPO = {ord('1'):TIPO_CIRCULO, ord('2'):TIPO_QUADRADO, ord('3'):TIPO_TRI_EQUI,
+             ord('4'):TIPO_TRI_RET,ord('5'):TIPO_TRI_ESC, ord('q'):TIPO_P_FIXO ,
+             ord('w'): TIPO_VETOR, ord('e'): TIPO_CORDA, ord('r'): TIPO_P_ROTA}
+
 CROP_MASK = {'1':
          [Quad(Point(0.102, 0.095), Point(0.26, 0.424)),
           Quad(Point(0.26, 0.095), Point(0.419, 0.424)),

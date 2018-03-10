@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # coding=utf-8
 import os
 from os.path import basename
@@ -101,6 +102,11 @@ class Sample:
                 self.pontos_coletados = self.interpretador.coletar_ponto(x,y)
 
         return
+=======
+import os
+import cfg
+from cropper import *
+>>>>>>> f0d3261fe5aa27ce0780dd16d28a32a504f24f4c
 
 class Annotator:
     listSamples = []
