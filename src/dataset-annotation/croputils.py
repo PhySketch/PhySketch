@@ -1,6 +1,9 @@
 import numpy as np
 import math
 import cv2 as cv
+import pickle
+from json import dumps, loads, JSONEncoder, JSONDecoder
+import pickle
 
 class Point(object):
     # Documentation string
@@ -53,10 +56,17 @@ class Point(object):
         return Point(self.x - other.x, self.y - other.y)
 
     def __mul__(self, other):
-        return Point(self.x * other.x, self.y * other.y)
+        if other.is_integer():
+            return Point(self.x * other, self.y * other)
+        else:
+            return Point(self.x / other.x, self.y / other.y)
 
-    def __div__(self, other):
-        return Point(self.x / other.x, self.y / other.y)
+    def __truediv__(self, other):
+        if isinstance(other,Point):
+            return Point(self.x / other.x, self.y / other.y)
+
+        else:
+            return Point(self.x / other, self.y / other)
 
     # With this method defined, two point objects can be compared with
     # >, <, and ==.
@@ -267,3 +277,9 @@ def rotate_bound(image, angle):
 
     # perform the actual rotation and return the image
     return cv.warpAffine(image, M, (nW, nH))
+
+class PythonObjectEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (list, dict, str, bytes, int, float, bool, type(None))):
+            return JSONEncoder.default(self, obj)
+        return {'_python_object': pickle.dumps(obj)}
