@@ -16,7 +16,7 @@ def main():
     parser.add_argument("-c", "--cropper", help="Executa processo de recorte de base", action='store_true')
     parser.add_argument("-z", "--viewer", help="Executa processo de visualização de base", action='store_true')
     parser.add_argument("-i", "--input", help="Pasta contendo estrutura /Dataset", required=True)
-    parser.add_argument("-s", "--startAt", help="Pula -s imagens",default=0,type=int)
+    parser.add_argument("-s", "--startAt", help="Pula -s imagens", default=0, type=int)
     #parser.add_argument("-o", "--output", help="Pasta de destino", required=True)
     parser.add_argument("-v", "--verbose", help="Verbose", action='store_true')
     args = parser.parse_args()
