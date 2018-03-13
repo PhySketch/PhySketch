@@ -181,20 +181,26 @@ class Sample:
                     cv.imwrite(path,image)
 
                 self.clear_crop_imgs()
-                cv.destroyWindow(self.get_window_name())
+                self.destroy_window()
                 break
 
             if key == ord("n"):
                 self.clear_crop_imgs()
-                cv.destroyWindow(self.get_window_name())
+                self.destroy_window()
                 break
 
             if key == ord("q"):
                 self.clear_crop_imgs()
-                cv.destroyWindow(self.get_window_name())
+                self.destroy_window()
                 return False
 
         return True
+
+    def destroy_window(self):
+        cv.waitKey(1)
+        cv.destroyWindow(self.get_window_name())
+        cv.waitKey(1)
+
 
 class Cropper:
     listSamples = []
@@ -209,7 +215,7 @@ class Cropper:
     def run(self):
 
         for i,sample in enumerate(self.listSamples):
-            if i > cfg.START_AT:
+            if i >= cfg.START_AT:
                 if sample.crop() != True:
                     break
 

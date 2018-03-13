@@ -68,6 +68,32 @@ class Point(object):
         else:
             return Point(self.x / other, self.y / other)
 
+    def __eq__(self, other):
+        return (self.x, self.y) == (other.x,other.y)
+
+    def __lt__(self, other):
+        if self.x >= 0 and other.x < 0:
+            return True
+
+        if self.x < 0 and other.x >= 0:
+            return False
+
+        if self.x == 0 and other.x == 0:
+            if self.y >= 0 or other.y >= 0:
+                return self.y > other.y
+            return other.y > self.y
+
+        det = self.x * other.y - other.x * self.y
+
+        if det < 0:
+            return True
+        if det > 0:
+            return False
+
+        d1 = self.x * self.x  + self.y * self.y
+        d2 = other.x * other.x + self.y * self.y
+        return d1 > d2;
+
     # With this method defined, two point objects can be compared with
     # >, <, and ==.
     def __cmp__(self, other):
@@ -280,6 +306,7 @@ def rotate_bound(image, angle):
 
 class PythonObjectEncoder(JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, (list, dict, str, bytes, int, float, bool, type(None))):
-            return JSONEncoder.default(self, obj)
-        return {'_python_object': pickle.dumps(obj)}
+        try:
+            return obj.toJSON()
+        except:
+            return obj.__dict__
