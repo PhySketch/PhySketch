@@ -4,6 +4,7 @@ import cv2 as cv
 import pickle
 from json import dumps, loads, JSONEncoder, JSONDecoder
 import pickle
+from scipy import ndimage
 
 class Point(object):
     # Documentation string
@@ -278,6 +279,17 @@ class CropMask:
 
         return images
 
+
+def rotate_bound_center(image, angle,center):
+    print(image.shape,center)
+
+    padX = [image.shape[1] - int(center.x), int(center.x)]
+    padY = [image.shape[0] - int(center.y),int(center.y)]
+    print(padX,padY)
+    imgP = np.pad(image, (padY,padX,[0,0]), 'constant')
+    return ndimage.rotate(imgP, -angle, reshape=False)
+
+    #return imgR[padY[0]: -padY[1], padX[0]: -padX[1]]
 
 
 def rotate_bound(image, angle):
