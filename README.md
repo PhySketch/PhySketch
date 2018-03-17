@@ -21,10 +21,10 @@ Em Edit Configurations:
 ### [ -c ] (cropper.py)
 **Comandos:**
 * N: passa a imagem.
+* 1: comando referente a atividade 1.
+* 2: comando referente a atividade 2.
+* 3: comando referente a atividade 3.
 * R: reseta o comando informado.
 * C: corta.
 * C depois do C: cancela.
 * S depois do C: salva.
-* 1: comando referente a atividade 1.
-* 2: comando referente a atividade 2.
-* 3: comando referente a atividade 3.
