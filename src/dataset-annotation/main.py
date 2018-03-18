@@ -5,9 +5,6 @@ import logging as log
 import cfg
 import os
 
-
-
-
 # BEGIN MAIN
 
 def main():
