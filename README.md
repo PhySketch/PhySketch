@@ -33,6 +33,7 @@ Em Edit Configurations:
 **Comandos terciários:**
 * C: cancela.
 * S: salva.
+* Q: sai.
 
 **Fluxo principal**
 * Encontra a imagem que deseja cortar (N).
@@ -68,8 +69,8 @@ Nome: não quer salvar os cortes.
 * 9: ponto de rotação?
 **Comandos secundários de cenários:**
 * Q: sai.
-**Comandos gerais secundários/terciários:**
-* R: recomaça a anotação.
+**Comandos gerais secundários:**
+* R: recomeça a anotação.
 * C: limpa as marcações referente àquele elemento.
 * S: salva.
 
@@ -78,15 +79,15 @@ Nome: não quer salvar os cortes.
 * Seleciona elemento (1).
 * Seleciona o número do elemento (1, 2, 3, 4, 5, 6, 7, 8 ou 9). **[FS1]**
 * Anota o elemento, onde sigam as seguintes especificidades:
-* *1: seleciona o centro e mais três pontos.
-* *2:
-* *3:
-* *4:
-* *5:
-* *6:
-* *7:
-* *8:
-* *9:
+* *1: seleciona o centro e mais três pontos (vamos mudar para apenas os 3 pontos?).
+* *2: seleciona 4 pontos
+* *3: seleciona 3 pontos
+* *4: seleciona 3 pontos
+* *5: seleciona 3 pontos
+* *6: seleciona o centro
+* *7: seleciona o centro
+* *8: seleciona o centro
+* *9: seleciona o centro
 * Salva a anotação (S). **[FS2]**
 * Fim.
 **[FS1]**
