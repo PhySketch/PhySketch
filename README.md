@@ -41,12 +41,10 @@ Em Edit Configurations:
 * Corta os elementos (C).
 * Salva os cortes (S). **[FS2]**
 * Fim.
-
 **[FS1]**
 Nome: deseja mudar o número de atividade.
 * Reseta o comando informado (R).
 * Volta para o fluxo principal.
-
 **[FS2]**
 Nome: não quer salvar os cortes.
 * Cancela (C).
@@ -57,7 +55,7 @@ Nome: não quer salvar os cortes.
 ### [ -a ] (annotator.py)
 **Comandos primários:**
 * N: passa a imagem.
-* 1: c12omando referente a elemento individual.
+* 1: comando referente a elemento individual.
 * 2: comando referente a cenário.
 **Comandos secundários de elemtos individuais:**
 * 1: círculo
@@ -76,33 +74,48 @@ Nome: não quer salvar os cortes.
 * C: limpa as marcações referente àquele elemento.
 * S: salva.
 
-**Fluxo principal referente à um elemento individual**
+**Fluxo principal referente à um elemento individual de uma forma geométrica**
 * Encontra a imagem que deseja anotar (N).
 * Seleciona elemento (1).
-* Seleciona o número do elemento (1, 2, 3, 4, 5, 6, 7, 8 ou 9). **[FS1]**
+* Seleciona o número do elemento (1, 2, 3, 4 ou 5). **[FS1]**
 * Anota o elemento, onde sigam as seguintes especificidades:
-* *1: seleciona 4 pontos (em formato de cruz).
-* *2: seleciona 4 pontos
-* *3: seleciona 3 pontos
-* *4: seleciona 3 pontos
-* *5: seleciona 3 pontos
-* *6: seleciona o centro
-* *7: seleciona as extremidades, primeiro o ponto central
-* *8: seleciona as extremidades, primeiro o ponto central
-* *9: seleciona o centro
+* *1: seleciona 4 pontos (primeiro o vértice superior, seguir o sentido horário, em formato de cruz).
+* *2: seleciona 4 pontos (primeiro o vértice superior esquerdo, seguir o sentido horário).
+* *3: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
+* *4: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
+* *5: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
 * Salva a anotação (S).
 * Fim.
-
 **[FS1]**
 Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
-
 **[FS2]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
 * Volta para o fluxo principal.
 
+**Fluxo principal referente à um elemento individual de um comando**
+* Encontra a imagem que deseja anotar (N).
+* Seleciona elemento (1).
+* Seleciona o número do elemento (6, 7, 8 ou 9). **[FS1]**
+* Anota o elemento, onde sigam as seguintes especificidades:
+* *6: seleciona o centro
+* *7: seleciona as extremidades, primeiro o ponto central
+* *8: seleciona as extremidades, primeiro o ponto central
+* *9: seleciona o centro
+* Salva a anotação (S).
+* Clica no terminal.
+* ENTER.
+* Fim.
+**[FS1]**
+Nome: deseja mudar o número de elemento.
+* Recomeça a anotação (R).
+* Volta para o fluxo principal.
+**[FS2]**
+Nome: deseja mudar a anotação.
+* Limpa a anotação já realizada (C).
+* Volta para o fluxo principal.
 
 **Fluxo principal referente à um cenário**
 * Encontra a imagem que deseja anotar (N).
@@ -111,18 +124,15 @@ Nome: deseja mudar a anotação.
 * Anota o corpo, seguindo o "Fluxo principal referente à um elemento individual". **[FS2]**
 * Salva a anotação (S). **[FS3]**
 * Fim.
-
 **[FS1]**
 Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
-
 **[FS2]**
 Nome: elemento individual é comando
 * Selecione o centro do elemento.
 * Digite o número referente ao corpo parente do elemento (número sequencial, seguindo a ordem de anotação).
 * Volta para o fluxo principal.
-
 **[FS3]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
