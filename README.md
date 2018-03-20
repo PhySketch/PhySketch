@@ -124,20 +124,42 @@ Nome: deseja mudar a anotação.
 **Fluxo principal referente à um cenário**
 * Encontra a imagem que deseja anotar (N).
 * Seleciona cenário (2).
-* Seleciona o elemento que você deseja anotar, iniciando sempre pelos corpos (1, 2, 3, 4, 5, 6, 7, 8 ou 9). **[FS1]**
-* Anota o corpo, seguindo o "Fluxo principal referente à um elemento individual". **[FS2]**
-* Salva a anotação (S). **[FS3]**
+* Seleciona a forma geométrica que você deseja anotar (1, 2, 3, 4 ou 5). **[FS1]** **[FS2]**
+* Anota a forma, seguindo as seguintes especificidades. **[FS3]** **[FS4]**
+* *1: seleciona 4 pontos (primeiro o vértice superior, seguir o sentido horário, em formato de cruz).
+* *2: seleciona 4 pontos (primeiro o vértice superior esquerdo, seguir o sentido horário).
+* *3: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
+* *4: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
+* *5: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
+* Passe para a anotação do próximo elemento (N). **[FS5]**
 * Fim.
 **[FS1]**
 Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
 **[FS2]**
-Nome: elemento individual é comando
-* Selecione o centro do elemento.
-* Digite o número referente ao corpo parente do elemento (número sequencial, seguindo a ordem de anotação).
-* Volta para o fluxo principal.
+Nome: deseja anotar um comando
+* Seleciona o comando que você deseja anotar (6, 7, 8 ou 9). **[FS1]**
+* Anota o comando, seguindo as seguintes especificidades: **[FS3]**
+* *6: seleciona o centro
+* *7: seleciona as extremidades, primeiro o ponto central
+* *8: seleciona as extremidades, primeiro o ponto central
+* *9: seleciona o centro
+* Salva a anotação (S).
+* Clica no terminal.
+* Digite o número referente ao seu parente (forma geométrica).
+* ENTER.
+* Passe para a  anotação do próximo elemento (N). **[FS5]**
+* Fim.
 **[FS3]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
 * Volta para o fluxo principal.
+**[FS4]**
+Nome: elemento não possui vértice
+* Anotar pontos imaginários que representem o suposto vértice.
+* Volta para o fluxo principal.
+**[FS5]**
+Nome: encontra-se na anotação do último elemento do cenário
+* Ao invés de passar para o próximo elemento (N), salvar o cenário (S).
+* Fim.
