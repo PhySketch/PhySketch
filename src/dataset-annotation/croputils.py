@@ -4,6 +4,7 @@ import cv2 as cv
 import pickle
 from json import dumps, loads, JSONEncoder, JSONDecoder
 import pickle
+from scipy import ndimage
 
 class Point(object):
     # Documentation string
@@ -67,6 +68,32 @@ class Point(object):
 
         else:
             return Point(self.x / other, self.y / other)
+
+    def __eq__(self, other):
+        return (self.x, self.y) == (other.x,other.y)
+
+    def __lt__(self, other):
+        if self.x >= 0 and other.x < 0:
+            return True
+
+        if self.x < 0 and other.x >= 0:
+            return False
+
+        if self.x == 0 and other.x == 0:
+            if self.y >= 0 or other.y >= 0:
+                return self.y > other.y
+            return other.y > self.y
+
+        det = self.x * other.y - other.x * self.y
+
+        if det < 0:
+            return True
+        if det > 0:
+            return False
+
+        d1 = self.x * self.x  + self.y * self.y
+        d2 = other.x * other.x + self.y * self.y
+        return d1 > d2;
 
     # With this method defined, two point objects can be compared with
     # >, <, and ==.
@@ -253,8 +280,20 @@ class CropMask:
         return images
 
 
+def rotate_bound_center(image, angle,center):
+    print(image.shape,center)
 
-def rotate_bound(image, angle):
+    padX = [image.shape[1] - int(center.x), int(center.x)]
+    padY = [image.shape[0] - int(center.y), int(center.y)]
+    #print(padX,padY)
+    imgP = np.pad(image, (padY,padX,[0,0]), 'constant')
+    cv.imshow("oi",imgP)
+    imgR = rotate_bound(imgP,angle)#ndimage.rotate(imgP, -angle, reshape=False)
+
+    return imgR[padY[0]: -padY[1], padX[0]: -padX[1]]
+
+
+def rotate_bound(image, angle,borderValue=0):
     # grab the dimensions of the image and then determine the
     # center
     (h, w) = image.shape[:2]
@@ -276,10 +315,11 @@ def rotate_bound(image, angle):
     M[1, 2] += (nH / 2) - cY
 
     # perform the actual rotation and return the image
-    return cv.warpAffine(image, M, (nW, nH))
+    return cv.warpAffine(image, M, (nW, nH),borderValue=borderValue)
 
 class PythonObjectEncoder(JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, (list, dict, str, bytes, int, float, bool, type(None))):
-            return JSONEncoder.default(self, obj)
-        return {'_python_object': pickle.dumps(obj)}
+        try:
+            return obj.toJSON()
+        except:
+            return obj.__dict__
