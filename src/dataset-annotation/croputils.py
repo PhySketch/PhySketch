@@ -284,7 +284,6 @@ def rotate_bound_center(image, angle,center):
     print(image.shape,center)
 
     padX = [image.shape[1] - int(center.x), int(center.x)]
-<<<<<<< HEAD
     padY = [image.shape[0] - int(center.y), int(center.y)]
     #print(padX,padY)
     imgP = np.pad(image, (padY,padX,[0,0]), 'constant')
@@ -292,14 +291,7 @@ def rotate_bound_center(image, angle,center):
     imgR = rotate_bound(imgP,angle)#ndimage.rotate(imgP, -angle, reshape=False)
 
     return imgR[padY[0]: -padY[1], padX[0]: -padX[1]]
-=======
-    padY = [image.shape[0] - int(center.y),int(center.y)]
-    print(padX,padY)
-    imgP = np.pad(image, (padY,padX,[0,0]), 'constant')
-    return ndimage.rotate(imgP, -angle, reshape=False)
 
-    #return imgR[padY[0]: -padY[1], padX[0]: -padX[1]]
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
 
 def rotate_bound(image, angle,borderValue=0):

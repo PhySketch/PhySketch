@@ -8,7 +8,6 @@ import cv2 as cv
 
 class SampleInterpreter():
     is_cenario = False
-<<<<<<< HEAD
     sample_id =''
     def __init__(self,sample_id,base_path=None):
 
@@ -22,20 +21,11 @@ class SampleInterpreter():
         self.path_img = os.path.join(self.input_dir, 'cropped/' + sample_id + '.png')
 
         self.path_anota = os.path.join(self.input_dir, 'annotated/' + sample_id + '.phyd')
-=======
-    def __init__(self,sample_id):
 
-        self.result = ''
-
-        self.path_img = os.path.join(cfg.INPUT_DIR, 'cropped/' + sample_id + '.png')
-
-        self.path_anota = os.path.join(cfg.INPUT_DIR, 'annotated/' + sample_id + '.phyd')
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
         if not os.path.isfile(self.path_img) or not os.path.isfile(self.path_anota):
             log.error("Arquivo não encontrado " + self.path_anota + " - " + self.path_img)
             return
 
-<<<<<<< HEAD
         with open(self.path_anota, "r") as infile:
             self.anota = json.load(infile)
 
@@ -163,29 +153,11 @@ class SampleInterpreter():
         #cv.imshow("RESULT IMG", result)
 
         '''
-=======
-        self.imageOriginal = cv.imread(self.path_img, cv.IMREAD_COLOR)
 
-        with open(self.path_anota, "r") as infile:
-            self.anota = json.load(infile)
-
-        self.interpretar()
-        self.mascara = self.criar_mascara()
-
-    def criar_mascara(self):
-        im = cv.cvtColor(self.imageOriginal,cv.COLOR_RGB2GRAY)
-        temp = cv.adaptiveThreshold(im, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2)
-        img = np.zeros((temp.shape[0],temp.shape[1],3),dtype=np.uint8)
-        img[:,:,0] = temp
-        img[:, :, 1] = temp
-        img[:, :, 2] = temp
-        return img
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
     def interpretar(self):
 
         if cfg.ANOT_ELEMENT_LIST not in self.anota: #elemento
-<<<<<<< HEAD
             self.amostra =  self.interpretar_elemento(self.anota)
         else:  # cenario
 
@@ -193,20 +165,11 @@ class SampleInterpreter():
             self.amostra = Scene()
             for ele in self.anota[cfg.ANOT_ELEMENT_LIST]:
                 self.amostra.add_element( self.interpretar_elemento(ele))
-=======
-            self.result =  self.interpretar_elemento(self.anota)
-        else:  # cenario
 
-            self.is_cenario = True
-            self.result = Scene()
-            for ele in self.anota[cfg.ANOT_ELEMENT_LIST]:
-                self.result.add_element( self.interpretar_elemento(ele))
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
     def interpretar_elemento(self,ele):
         if ele[cfg.ANOT_TIPO_STR] == cfg.ANOT_TIPO_CIRCULO_STR:
 
-<<<<<<< HEAD
             return CircleInterpreter().interpretar_anotacao(self.imagem.shape[1], self.imagem.shape[0],ele)
 
         if ele[cfg.ANOT_TIPO_STR] == cfg.ANOT_TIPO_QUAD_STR:
@@ -265,38 +228,6 @@ class Scene():
         else:
             return False
 
-=======
-            return CircleInterpreter().interpretar_anotacao(ele)
-
-        if ele[cfg.ANOT_TIPO_STR] == cfg.ANOT_TIPO_QUAD_STR:
-            return QuadInterpreter().interpretar_anotacao(ele)
-
-        if ele[cfg.ANOT_TIPO_STR] in [cfg.ANOT_TIPO_TRI_ESCA_STR, cfg.ANOT_TIPO_TRI_RET_STR,
-                                      cfg.ANOT_TIPO_TRI_EQUI_STR]:
-            return TriangleInterpreter(ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(ele)
-
-        if ele[cfg.ANOT_TIPO_STR] in [cfg.ANOT_TIPO_P_FIXO, cfg.ANOT_TIPO_P_ROTA]:
-            return PointCommandInterpreter(ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(ele)
-
-        if ele[cfg.ANOT_TIPO_STR] in [cfg.ANOT_TIPO_VETOR, cfg.ANOT_TIPO_CORDA]:
-            return LineCommandInterpreter(ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(ele)
-
-    def draw_anotacao(self,dst = False):
-        if type(dst) !=  type(False):
-            self.result.draw_anotacao(dst)
-        else:
-
-            self.result.draw_anotacao(self.imageOriginal)
-
-
-class Scene():
-    def __init__(self):
-        self.elementos = []
-
-    def add_element(self,ele):
-        self.elementos.append(ele)
-
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
     def draw_anotacao(self,imagem):
 
         for ele in self.elementos:
@@ -304,7 +235,6 @@ class Scene():
 
 class Element():
     points = []
-<<<<<<< HEAD
     relativePoints = []
     center = ''
     sampleWidth = 0
@@ -322,19 +252,13 @@ class Element():
         self.minx, self.miny = float("inf"), float("inf")
         self.maxx, self.maxy = float("-inf"), float("-inf")
         self.get_bbox()
-=======
-    center = ''
-    def __init__(self):
-        self.points = []
-        self.center = Point(0, 0)
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
+
 
     def calc_center(self):
         self.center = Point(0, 0)
         for p in self.points:
             self.center+=p
         self.center /= float(len(self.points))
-<<<<<<< HEAD
         self.relativeCenter = Point(float(self.center.x/self.sampleWidth),float(self.center.y/self.sampleHeight))
 
     def crop_sample(self,x,y,w,h):
@@ -359,13 +283,10 @@ class Element():
 
     def get_sample_center(self):
         return Point(self.center.x*self.sampleWidth,self.center.y*self.sampleHeight)
-=======
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
     def translate_by(self, dlt):
         for i,p in enumerate(self.points):
             self.points[i] += dlt
-<<<<<<< HEAD
             self.relativePoints[i]  = Point(self.points[i].x/self.sampleWidth , self.points[i].y/self.sampleHeight)
         self.calc_center()
 
@@ -388,10 +309,6 @@ class Element():
         self.calc_center()
         self.get_bbox()
 
-=======
-        self.calc_center()
-
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
     def rotate_by(self,dlt):
         self.calc_center()
 
@@ -401,7 +318,7 @@ class Element():
             newY = self.center.y + (res.x - self.center.x) * math.sin(dlt) + (res.y - self.center.y) * math.cos(dlt)
 
             self.points[i] = Point(newX,newY)
-<<<<<<< HEAD
+
             self.relativePoints[i] = Point(self.points[i].x / self.sampleWidth, self.points[i].y / self.sampleHeight)
 
         self.calc_center()
@@ -443,26 +360,11 @@ class Quad(Element):
     def __init__(self,sampleWidth,sampleHeight,p1,p2,p3,p4,center,length,theta):
         super().__init__(sampleWidth,sampleHeight)
         self.add_point(p1,p2,p3,p4)
-=======
-
-        self.calc_center()
-class Quad(Element):
-
-    def __init__(self,p1,p2,p3,p4,center,length,theta):
-        super().__init__()
-        self.points.append(p1)
-        self.points.append(p2)
-        self.points.append(p3)
-        self.points.append(p4)
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
         self.center = center
         self.length = length
         self.theta = theta
         self.calc_center()
-<<<<<<< HEAD
         self.tipo = cfg.ANOT_TIPO_QUAD_STR
-=======
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
     def draw_anotacao(self,imagem):
         cv.line(imagem, self.points[0].to_int(), self.points[3].to_int(), (255, 0, 0), 2)
@@ -472,7 +374,7 @@ class Quad(Element):
 
 class Circle(Element):
 
-<<<<<<< HEAD
+
     def __init__(self,sampleWidth,sampleHeight,center,rad):
         super().__init__(sampleWidth,sampleHeight)
         self.add_point(center)
@@ -492,26 +394,6 @@ class Triangle(Element):
         super().__init__(sampleWidth,sampleHeight)
         self.tipo = tipo
         self.add_point(p1, p2, p3)
-=======
-    def __init__(self,center,rad):
-        super().__init__()
-        self.points.append(center)
-        self.rad = rad
-        self.calc_center()
-
-    def draw_anotacao(self, imagem):
-        cv.circle(imagem, self.points[0].to_int(), self.rad, (255, 0, 0), 2)
-
-class Triangle(Element):
-
-    def __init__(self,tipo,p1,p2,p3):
-        super().__init__()
-        self.tipo = tipo
-        self.points.append(p1)
-        self.points.append(p2)
-        self.points.append(p3)
-        self.calc_center()
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
     def draw_anotacao(self, imagem):
 
@@ -521,37 +403,22 @@ class Triangle(Element):
 
 class PointCommand(Element):
 
-<<<<<<< HEAD
+
     def __init__(self,sampleWidth,sampleHeight,tipo,center):
         super().__init__(sampleWidth,sampleHeight)
         self.tipo = tipo
         self.add_point(center)
-=======
-    def __init__(self,tipo,center):
-        super().__init__()
-        self.tipo = tipo
-        self.points.append(center)
-        self.calc_center()
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
     def draw_anotacao(self,imagem):
         cv.circle(imagem, self.points[0].to_int(), 4, (255, 0, 0), 2)
 
 class LineCommand(Element):
 
-<<<<<<< HEAD
     def __init__(self,sampleWidth,sampleHeight,tipo,p1,p2):
         super().__init__(sampleWidth,sampleHeight)
         self.tipo = tipo
         self.add_point(p1, p2)
-=======
-    def __init__(self,tipo,p1,p2):
-        super().__init__()
-        self.tipo = tipo
-        self.points.append(p1)
-        self.points.append(p2)
-        self.calc_center()
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
+
 
     def draw_anotacao(self,imagem):
         cv.line(imagem,self.points[0].to_int(), self.points[1].to_int(), (255, 0, 0), 2)
@@ -639,17 +506,13 @@ class CircleInterpreter(Interpreter):
     def __init__(self):
         super().__init__()
 
-<<<<<<< HEAD
         self.pontos = ['Borda 1 do círculo', 'Borda 2 do círculo', 'Borda 3 do círculo', 'Borda 4 do círculo']
-=======
-        self.pontos = ['Centro do círculo', 'Borda 1 do círculo', 'Borda 2 do círculo', 'Borda 3 do círculo']
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
+
 
     def gerar_anotacao(self, filename, salvar_arquivo=True):
         self.anotacao[cfg.ANOT_TIPO_STR] = cfg.ANOT_TIPO_CIRCULO_STR
         self.anotacao[cfg.ANOT_CLASS] = cfg.ANOT_PRIMITIVE
         self.anotacao[cfg.ANOT_DESCRIPTOR] = {}
-<<<<<<< HEAD
         center = (self.pontos_coletados[0] + self.pontos_coletados[1] + self.pontos_coletados[2] +self.pontos_coletados[3] )/4.0
 
         dis1 = center.distance(self.pontos_coletados[0])
@@ -657,33 +520,20 @@ class CircleInterpreter(Interpreter):
         dis3 = center.distance(self.pontos_coletados[2])
         dis4 = center.distance(self.pontos_coletados[3])
         dis = (dis1 + dis2 + dis3 +dis4) / 4.0
-=======
-        center = self.pontos_coletados[0]
 
-        dis1 = center.distance(self.pontos_coletados[1])
-        dis2 = center.distance(self.pontos_coletados[1])
-        dis3 = center.distance(self.pontos_coletados[1])
-        dis = (dis1 + dis2 + dis3) / 3
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
         log.info("Center: " + str(center) + " Radius: " + str(dis))
         self.anotacao[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER] = center.__dict__
         self.anotacao[cfg.ANOT_DESCRIPTOR][cfg.ANOT_RADIUS] = "{0:.2f}".format(dis)
 
         super().gerar_anotacao(filename, salvar_arquivo)
 
-<<<<<<< HEAD
+
     def interpretar_anotacao(self,sampleWidth,sampleHeight,ele):
         center = Point(ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['x'],ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['y'])
         rad = int(float(ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_RADIUS]))
 
         return Circle(sampleWidth,sampleHeight,center, rad)
-=======
-    def interpretar_anotacao(self,ele):
-        center = Point(ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['x'],ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['y'])
-        rad = int(float(ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_RADIUS]))
 
-        return Circle(center, rad)
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
 class QuadInterpreter(Interpreter):
 
@@ -728,11 +578,8 @@ class QuadInterpreter(Interpreter):
 
         super().gerar_anotacao(filename, salvar_arquivo)
 
-<<<<<<< HEAD
     def interpretar_anotacao(self,sampleWidth,sampleHeight,ele):
-=======
-    def interpretar_anotacao(self,ele):
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
+
 
         center = Point(ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['x'],
                        ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['y'])
@@ -757,11 +604,8 @@ class QuadInterpreter(Interpreter):
         p4_final = center + Point(p4_t.x * math.cos(theta) - p4_t.y * math.sin(theta),
                                   p4_t.x * math.sin(theta) + p4_t.y * math.cos(theta))
 
-<<<<<<< HEAD
         return Quad(sampleWidth,sampleHeight,p1_final, p2_final, p3_final, p4_final, center, length, theta)
-=======
-        return Quad(p1_final, p2_final, p3_final, p4_final, center, length, theta)
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
+
 
 class TriangleInterpreter(Interpreter):
 
@@ -780,11 +624,9 @@ class TriangleInterpreter(Interpreter):
         super().gerar_anotacao(filename, salvar_arquivo)
 
 
-<<<<<<< HEAD
+
     def interpretar_anotacao(self,sampleWidth,sampleHeight, ele):
-=======
-    def interpretar_anotacao(self, ele):
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
+
         p1 = ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_P1]
         p1 = Point(int(float(p1['x'])), int(float(p1['y'])))
 
@@ -796,20 +638,12 @@ class TriangleInterpreter(Interpreter):
 
         #print (np.int32(np.array([p1, p2, p3])))
 
-<<<<<<< HEAD
         return Triangle(sampleWidth,sampleHeight,ele[cfg.ANOT_TIPO_STR], p1, p2, p3)
-=======
-        return Triangle(ele[cfg.ANOT_TIPO_STR], p1, p2, p3)
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
 
 class PointCommandInterpreter(Interpreter):
 
-<<<<<<< HEAD
     def __init__(self,tipo):
-=======
-    def __init__(self, tipo):
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
         super().__init__()
         self.tipo = tipo
         self.pontos = ['Centro ' + str(tipo)]
@@ -825,28 +659,16 @@ class PointCommandInterpreter(Interpreter):
             pass
         super().gerar_anotacao(filename, salvar_arquivo)
 
-<<<<<<< HEAD
     def interpretar_anotacao(self,sampleWidth,sampleHeight,ele):
-=======
-    def interpretar_anotacao(self,ele):
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
         center = Point(ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['x'],ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_CENTER]['y'])
 
 
-<<<<<<< HEAD
         return PointCommand(sampleWidth,sampleHeight,ele[cfg.ANOT_TIPO_STR], center)
 
 class LineCommandInterpreter(Interpreter):
 
     def __init__(self,tipo):
-=======
-        return PointCommand(ele[cfg.ANOT_TIPO_STR], center)
-
-class LineCommandInterpreter(Interpreter):
-
-    def __init__(self, tipo):
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
         super().__init__()
         self.tipo = tipo
 
@@ -864,19 +686,12 @@ class LineCommandInterpreter(Interpreter):
             pass
         super().gerar_anotacao(filename, salvar_arquivo)
 
-<<<<<<< HEAD
     def interpretar_anotacao(self,sampleWidth,sampleHeight, ele):
-=======
-    def interpretar_anotacao(self, ele):
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
 
         p1 = ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_P1]
         p1 = Point(int(float(p1['x'])), int(float(p1['y'])))
 
         p2 = ele[cfg.ANOT_DESCRIPTOR][cfg.ANOT_P2]
         p2 = Point(int(float(p2['x'])), int(float(p2['y'])))
-<<<<<<< HEAD
+
         return LineCommand(sampleWidth,sampleHeight,ele[cfg.ANOT_TIPO_STR], p1, p2)
-=======
-        return LineCommand(ele[cfg.ANOT_TIPO_STR], p1, p2)
->>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
