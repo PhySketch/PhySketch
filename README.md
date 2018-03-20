@@ -78,7 +78,7 @@ Nome: não quer salvar os cortes.
 * Encontra a imagem que deseja anotar (N).
 * Seleciona elemento (1).
 * Seleciona o número do elemento (1, 2, 3, 4 ou 5). **[FS1]**
-* Anota o elemento, onde sigam as seguintes especificidades:
+* Anota os vértices do elemento, onde sigam as seguintes especificidades: **[FS2]** **[FS3]**
 * *1: seleciona 4 pontos (primeiro o vértice superior, seguir o sentido horário, em formato de cruz).
 * *2: seleciona 4 pontos (primeiro o vértice superior esquerdo, seguir o sentido horário).
 * *3: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
@@ -91,6 +91,10 @@ Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
 **[FS2]**
+Nome: elemento não possui vértice
+* Anotar pontos imaginários que representem o suposto vértice.
+* Volta para o fluxo principal.
+ **[FS3]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
 * Volta para o fluxo principal.
@@ -99,7 +103,7 @@ Nome: deseja mudar a anotação.
 * Encontra a imagem que deseja anotar (N).
 * Seleciona elemento (1).
 * Seleciona o número do elemento (6, 7, 8 ou 9). **[FS1]**
-* Anota o elemento, onde sigam as seguintes especificidades:
+* Anota o elemento, onde sigam as seguintes especificidades: **[FS2]**
 * *6: seleciona o centro
 * *7: seleciona as extremidades, primeiro o ponto central
 * *8: seleciona as extremidades, primeiro o ponto central
