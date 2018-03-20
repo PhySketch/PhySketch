@@ -112,7 +112,7 @@ class SampleInterpreter():
         self.amostra.mascara = cv.resize(self.amostra.mascara, (0, 0), fx=factor, fy=factor, interpolation= inter)
 
         self.amostra.scale(factor)
-        self.amostra.translate_by(Point(self.textura.shape[1] / 2,self.textura.shape[0] / 2))
+        self.amostra.translate_by(Point(self.amostra.textura.shape[1] / 2,self.amostra.textura.shape[0] / 2))
 
     def rotate_sample(self, angle):
         '''
@@ -180,10 +180,10 @@ class SampleInterpreter():
             return TriangleInterpreter(ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(self.imagem.shape[1], self.imagem.shape[0],ele)
 
         if ele[cfg.ANOT_TIPO_STR] in [cfg.ANOT_TIPO_P_FIXO, cfg.ANOT_TIPO_P_ROTA]:
-            return PointCommandInterpreter(self.imagem.shape[1], self.imagem.shape[0],ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(self.imagem.shape[1], self.imagem.shape[0],ele)
+            return PointCommandInterpreter(ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(self.imagem.shape[1], self.imagem.shape[0],ele)
 
         if ele[cfg.ANOT_TIPO_STR] in [cfg.ANOT_TIPO_VETOR, cfg.ANOT_TIPO_CORDA]:
-            return LineCommandInterpreter(self.imagem.shape[1], self.imagem.shape[0],ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(self.imagem.shape[1], self.imagem.shape[0],ele)
+            return LineCommandInterpreter(ele[cfg.ANOT_TIPO_STR]).interpretar_anotacao(self.imagem.shape[1], self.imagem.shape[0],ele)
 
     def draw_anotacao(self,dst = False):
         if type(dst) !=  type(False):
