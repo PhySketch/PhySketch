@@ -24,12 +24,21 @@ class Viewer:
             tipo = int(input("1 - Amostra individual 2 - Base inteira"))
 
         if tipo == 1:
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
             fname = input("Insira nome de amostra (sem extensão)")
 
             sample = SampleInterpreter(fname)
             sample.draw_anotacao()
 
+<<<<<<< HEAD
             cv.imshow("Imagem",sample.amostra.textura)
+=======
+            cv.imshow("Imagem",sample.imageOriginal)
+>>>>>>> a5166b9c73c4026cab3b32e4fd8e09fa2c7fbd41
             cv.waitKey(0)
         else:
             path = os.path.join(cfg.INPUT_DIR, "annotated")
