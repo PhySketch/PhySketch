@@ -1,0 +1,244 @@
+{
+ "CATEGORY": "SCENE",
+ "ELEMENTS": [
+  {
+   "CLASS": "PRIMITIVE",
+   "COLLECTED POINTS": [
+    {
+     "x": 70,
+     "y": 56
+    },
+    {
+     "x": 101,
+     "y": 148
+    },
+    {
+     "x": 32,
+     "y": 151
+    }
+   ],
+   "TYPE": "TRIANGLE.EQUI",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 70,
+     "y": 56
+    },
+    "P2": {
+     "x": 101,
+     "y": 148
+    },
+    "P3": {
+     "x": 32,
+     "y": 151
+    }
+   }
+  },
+  {
+   "CLASS": "PRIMITIVE",
+   "COLLECTED POINTS": [
+    {
+     "x": 726,
+     "y": 71
+    },
+    {
+     "x": 828,
+     "y": 59
+    },
+    {
+     "x": 836,
+     "y": 130
+    },
+    {
+     "x": 732,
+     "y": 135
+    }
+   ],
+   "TYPE": "QUAD",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 780.5,
+     "y": 98.75
+    },
+    "THETA": "-0.0826",
+    "LENGTH": "103.41"
+   }
+  },
+  {
+   "CLASS": "PRIMITIVE",
+   "COLLECTED POINTS": [
+    {
+     "x": 366,
+     "y": 228
+    },
+    {
+     "x": 452,
+     "y": 403
+    },
+    {
+     "x": 280,
+     "y": 402
+    }
+   ],
+   "TYPE": "TRIANGLE.EQUI",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 366,
+     "y": 228
+    },
+    "P2": {
+     "x": 452,
+     "y": 403
+    },
+    "P3": {
+     "x": 280,
+     "y": 402
+    }
+   }
+  },
+  {
+   "CLASS": "PRIMITIVE",
+   "COLLECTED POINTS": [
+    {
+     "x": 78,
+     "y": 593
+    },
+    {
+     "x": 86,
+     "y": 680
+    },
+    {
+     "x": 48,
+     "y": 636
+    },
+    {
+     "x": 117,
+     "y": 634
+    }
+   ],
+   "TYPE": "CIRCLE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 82.25,
+     "y": 635.75
+    },
+    "RADIUS": "39.10"
+   }
+  },
+  {
+   "CLASS": "PRIMITIVE",
+   "COLLECTED POINTS": [
+    {
+     "x": 890,
+     "y": 472
+    },
+    {
+     "x": 894,
+     "y": 681
+    },
+    {
+     "x": 622,
+     "y": 662
+    }
+   ],
+   "TYPE": "TRIANGLE.RECT",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 890,
+     "y": 472
+    },
+    "P2": {
+     "x": 894,
+     "y": 681
+    },
+    "P3": {
+     "x": 622,
+     "y": 662
+    }
+   }
+  },
+  {
+   "CLASS": "COMMAND",
+   "PARENT": 0,
+   "COLLECTED POINTS": [
+    {
+     "x": 53,
+     "y": 126
+    },
+    {
+     "x": 242,
+     "y": 30
+    }
+   ],
+   "TYPE": "ROPE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 53,
+     "y": 126
+    },
+    "P2": {
+     "x": 242,
+     "y": 30
+    }
+   }
+  },
+  {
+   "CLASS": "COMMAND",
+   "PARENT": 2,
+   "COLLECTED POINTS": [
+    {
+     "x": 361,
+     "y": 333
+    }
+   ],
+   "TYPE": "P.ROTA",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 361,
+     "y": 333
+    }
+   }
+  },
+  {
+   "CLASS": "COMMAND",
+   "PARENT": 3,
+   "COLLECTED POINTS": [
+    {
+     "x": 86,
+     "y": 639
+    },
+    {
+     "x": 264,
+     "y": 538
+    }
+   ],
+   "TYPE": "VECTOR",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 86,
+     "y": 639
+    },
+    "P2": {
+     "x": 264,
+     "y": 538
+    }
+   }
+  },
+  {
+   "CLASS": "COMMAND",
+   "PARENT": 4,
+   "COLLECTED POINTS": [
+    {
+     "x": 791,
+     "y": 616
+    }
+   ],
+   "TYPE": "P.FIXO",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 791,
+     "y": 616
+    }
+   }
+  }
+ ]
+}

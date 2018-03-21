@@ -1,0 +1,33 @@
+{
+ "TYPE": "TRIANGLE.EQUI",
+ "CATEGORY": "ELEMENT",
+ "CLASS": "PRIMITIVE",
+ "COLLECTED POINTS": [
+  {
+   "y": 67,
+   "x": 83
+  },
+  {
+   "y": 179,
+   "x": 121
+  },
+  {
+   "y": 178,
+   "x": 37
+  }
+ ],
+ "DESCRIPTOR": {
+  "P1": {
+   "y": 67,
+   "x": 83
+  },
+  "P3": {
+   "y": 178,
+   "x": 37
+  },
+  "P2": {
+   "y": 179,
+   "x": 121
+  }
+ }
+}

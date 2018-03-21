@@ -1,0 +1,30 @@
+{
+ "CLASS": "PRIMITIVE",
+ "CATEGORY": "ELEMENT",
+ "COLLECTED POINTS": [
+  {
+   "x": 56,
+   "y": 32
+  },
+  {
+   "x": 61,
+   "y": 108
+  },
+  {
+   "x": 13,
+   "y": 70
+  },
+  {
+   "x": 101,
+   "y": 71
+  }
+ ],
+ "TYPE": "CIRCLE",
+ "DESCRIPTOR": {
+  "CENTER": {
+   "x": 57.75,
+   "y": 70.25
+  },
+  "RADIUS": "41.05"
+ }
+}

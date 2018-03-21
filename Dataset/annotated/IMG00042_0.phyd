@@ -1,0 +1,313 @@
+{
+ "CATEGORY": "SCENE",
+ "ELEMENTS": [
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 402,
+     "x": 78
+    },
+    {
+     "y": 522,
+     "x": 152
+    },
+    {
+     "y": 523,
+     "x": 14
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P2": {
+     "y": 522,
+     "x": 152
+    },
+    "P1": {
+     "y": 402,
+     "x": 78
+    },
+    "P3": {
+     "y": 523,
+     "x": 14
+    }
+   },
+   "TYPE": "TRIANGLE.EQUI"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 248,
+     "x": 380
+    },
+    {
+     "y": 403,
+     "x": 387
+    },
+    {
+     "y": 325,
+     "x": 313
+    },
+    {
+     "y": 324,
+     "x": 453
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 325.0,
+     "x": 383.25
+    },
+    "RADIUS": "73.79"
+   },
+   "TYPE": "CIRCLE"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 54,
+     "x": 647
+    },
+    {
+     "y": 65,
+     "x": 757
+    },
+    {
+     "y": 143,
+     "x": 744
+    },
+    {
+     "y": 139,
+     "x": 639
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "THETA": "0.0689",
+    "LENGTH": "107.81",
+    "CENTER": {
+     "y": 100.25,
+     "x": 696.75
+    }
+   },
+   "TYPE": "QUAD"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 151,
+     "x": 847
+    },
+    {
+     "y": 159,
+     "x": 973
+    },
+    {
+     "y": 247,
+     "x": 967
+    },
+    {
+     "y": 243,
+     "x": 839
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "THETA": "0.0473",
+    "LENGTH": "127.16",
+    "CENTER": {
+     "y": 200.0,
+     "x": 906.5
+    }
+   },
+   "TYPE": "QUAD"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 574,
+     "x": 307
+    },
+    {
+     "y": 676,
+     "x": 311
+    },
+    {
+     "y": 624,
+     "x": 259
+    },
+    {
+     "y": 624,
+     "x": 357
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 624.5,
+     "x": 308.5
+    },
+    "RADIUS": "50.02"
+   },
+   "TYPE": "CIRCLE"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 441,
+     "x": 938
+    },
+    {
+     "y": 703,
+     "x": 925
+    },
+    {
+     "y": 699,
+     "x": 609
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P2": {
+     "y": 703,
+     "x": 925
+    },
+    "P1": {
+     "y": 441,
+     "x": 938
+    },
+    "P3": {
+     "y": 699,
+     "x": 609
+    }
+   },
+   "TYPE": "TRIANGLE.RECT"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 479,
+     "x": 89
+    },
+    {
+     "y": 366,
+     "x": 158
+    }
+   ],
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P2": {
+     "y": 366,
+     "x": 158
+    },
+    "P1": {
+     "y": 479,
+     "x": 89
+    }
+   },
+   "TYPE": "VECTOR",
+   "PARENT": 0
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 323,
+     "x": 380
+    }
+   ],
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 323,
+     "x": 380
+    }
+   },
+   "TYPE": "P.FIXO",
+   "PARENT": 1
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 103,
+     "x": 693
+    },
+    {
+     "y": 24,
+     "x": 699
+    }
+   ],
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P2": {
+     "y": 24,
+     "x": 699
+    },
+    "P1": {
+     "y": 103,
+     "x": 693
+    }
+   },
+   "TYPE": "ROPE",
+   "PARENT": 2
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 211,
+     "x": 904
+    },
+    {
+     "y": 7,
+     "x": 905
+    }
+   ],
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P2": {
+     "y": 7,
+     "x": 905
+    },
+    "P1": {
+     "y": 211,
+     "x": 904
+    }
+   },
+   "TYPE": "ROPE",
+   "PARENT": 3
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 626,
+     "x": 307
+    }
+   ],
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 626,
+     "x": 307
+    }
+   },
+   "TYPE": "P.ROTA",
+   "PARENT": 4
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 622,
+     "x": 825
+    }
+   ],
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 622,
+     "x": 825
+    }
+   },
+   "TYPE": "P.FIXO",
+   "PARENT": 5
+  }
+ ]
+}

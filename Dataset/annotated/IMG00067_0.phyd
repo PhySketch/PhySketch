@@ -1,0 +1,186 @@
+{
+ "ELEMENTS": [
+  {
+   "TYPE": "CIRCLE",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 66.25,
+     "x": 164.25
+    },
+    "RADIUS": "41.03"
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 17,
+     "x": 167
+    },
+    {
+     "y": 115,
+     "x": 166
+    },
+    {
+     "y": 67,
+     "x": 129
+    },
+    {
+     "y": 66,
+     "x": 195
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.ESCA",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 359,
+     "x": 185
+    },
+    "P1": {
+     "y": 260,
+     "x": 33
+    },
+    "P2": {
+     "y": 309,
+     "x": 351
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 260,
+     "x": 33
+    },
+    {
+     "y": 309,
+     "x": 351
+    },
+    {
+     "y": 359,
+     "x": 185
+    }
+   ]
+  },
+  {
+   "TYPE": "CIRCLE",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 598.0,
+     "x": 127.75
+    },
+    "RADIUS": "40.68"
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 547,
+     "x": 120
+    },
+    {
+     "y": 647,
+     "x": 139
+    },
+    {
+     "y": 604,
+     "x": 96
+    },
+    {
+     "y": 594,
+     "x": 156
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.RECT",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 580,
+     "x": 488
+    },
+    "P1": {
+     "y": 403,
+     "x": 788
+    },
+    "P2": {
+     "y": 539,
+     "x": 800
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 403,
+     "x": 788
+    },
+    {
+     "y": 539,
+     "x": 800
+    },
+    {
+     "y": 580,
+     "x": 488
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 315,
+     "x": 194
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 315,
+     "x": 194
+    }
+   ],
+   "PARENT": 1
+  },
+  {
+   "TYPE": "VECTOR",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P1": {
+     "y": 600,
+     "x": 125
+    },
+    "P2": {
+     "y": 476,
+     "x": 334
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 600,
+     "x": 125
+    },
+    {
+     "y": 476,
+     "x": 334
+    }
+   ],
+   "PARENT": 2
+  },
+  {
+   "TYPE": "P.FIXO",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 502,
+     "x": 750
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 502,
+     "x": 750
+    }
+   ],
+   "PARENT": 3
+  }
+ ],
+ "CATEGORY": "SCENE"
+}
