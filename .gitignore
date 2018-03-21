@@ -97,5 +97,5 @@ bin/*
 built_graph/*
 cfg/*
 ckpt/*
-
+audit/*
 # End of https://www.gitignore.io/api/macos,pycharm
