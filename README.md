@@ -27,9 +27,11 @@ Em Edit Configurations:
 * 1: comando referente a atividade 1.
 * 2: comando referente a atividade 2.
 * 3: comando referente a atividade 3.
+
 **Comandos secundários:**
 * R: reseta o comando informado.
 * C: corta.
+
 **Comandos terciários:**
 * C: cancela.
 * S: salva.
@@ -41,10 +43,12 @@ Em Edit Configurations:
 * Corta os elementos (C).
 * Salva os cortes (S). **[FS2]**
 * Fim.
+
 **[FS1]**
 Nome: deseja mudar o número de atividade.
 * Reseta o comando informado (R).
 * Volta para o fluxo principal.
+
 **[FS2]**
 Nome: não quer salvar os cortes.
 * Cancela (C).
@@ -57,6 +61,7 @@ Nome: não quer salvar os cortes.
 * N: passa a imagem.
 * 1: comando referente a elemento individual.
 * 2: comando referente a cenário.
+
 **Comandos secundários de elemtos individuais:**
 * 1: círculo
 * 2: quadrado
@@ -67,8 +72,10 @@ Nome: não quer salvar os cortes.
 * 7: vetor
 * 8: corda
 * 9: ponto de rotação
+
 **Comandos secundários de cenários:**
 * Q: sai.
+
 **Comandos gerais secundários:**
 * R: recomeça a anotação.
 * C: limpa as marcações referente àquele elemento.
@@ -86,14 +93,17 @@ Nome: não quer salvar os cortes.
 * *5: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
 * Salva a anotação (S).
 * Fim.
+
 **[FS1]**
 Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
+
 **[FS2]**
 Nome: elemento não possui vértice
 * Anotar pontos imaginários que representem o suposto vértice.
 * Volta para o fluxo principal.
+
  **[FS3]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
@@ -112,10 +122,12 @@ Nome: deseja mudar a anotação.
 * Clica no terminal.
 * ENTER.
 * Fim.
+
 **[FS1]**
 Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
+
 **[FS2]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
@@ -133,10 +145,12 @@ Nome: deseja mudar a anotação.
 * *5: seleciona 3 pontos (primeiro o vértice superior, seguir o sentido horário).
 * Passe para a anotação do próximo elemento (N). **[FS5]**
 * Fim.
+
 **[FS1]**
 Nome: deseja mudar o número de elemento.
 * Recomeça a anotação (R).
 * Volta para o fluxo principal.
+
 **[FS2]**
 Nome: deseja anotar um comando
 * Seleciona o comando que você deseja anotar (6, 7, 8 ou 9). **[FS1]**
@@ -151,14 +165,17 @@ Nome: deseja anotar um comando
 * ENTER.
 * Passe para a  anotação do próximo elemento (N). **[FS5]**
 * Fim.
+
 **[FS3]**
 Nome: deseja mudar a anotação.
 * Limpa a anotação já realizada (C).
 * Volta para o fluxo principal.
+
 **[FS4]**
 Nome: elemento não possui vértice
 * Anotar pontos imaginários que representem o suposto vértice.
 * Volta para o fluxo principal.
+
 **[FS5]**
 Nome: encontra-se na anotação do último elemento do cenário
 * Ao invés de passar para o próximo elemento (N), salvar o cenário (S).
