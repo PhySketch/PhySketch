@@ -1,0 +1,18 @@
+{
+ "PARENT": 4,
+ "DESCRIPTOR": {
+  "CENTER": {
+   "x": 89,
+   "y": 252
+  }
+ },
+ "TYPE": "P.FIXO",
+ "COLLECTED POINTS": [
+  {
+   "x": 89,
+   "y": 252
+  }
+ ],
+ "CLASS": "COMMAND",
+ "CATEGORY": "ELEMENT"
+}

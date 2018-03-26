@@ -1,0 +1,311 @@
+{
+ "CATEGORY": "SCENE",
+ "ELEMENTS": [
+  {
+   "DESCRIPTOR": {
+    "LENGTH": "121.82",
+    "THETA": "-0.0701",
+    "CENTER": {
+     "x": 91.25,
+     "y": 81.75
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "QUAD",
+   "COLLECTED POINTS": [
+    {
+     "x": 23,
+     "y": 36
+    },
+    {
+     "x": 146,
+     "y": 30
+    },
+    {
+     "x": 158,
+     "y": 125
+    },
+    {
+     "x": 38,
+     "y": 136
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 904,
+     "y": 53
+    },
+    "P2": {
+     "x": 915,
+     "y": 157
+    },
+    "P3": {
+     "x": 768,
+     "y": 170
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "TRIANGLE.RECT",
+   "COLLECTED POINTS": [
+    {
+     "x": 904,
+     "y": 53
+    },
+    {
+     "x": 915,
+     "y": 157
+    },
+    {
+     "x": 768,
+     "y": 170
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "LENGTH": "91.12",
+    "THETA": "-0.5099",
+    "CENTER": {
+     "x": 323.25,
+     "y": 415.75
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "QUAD",
+   "COLLECTED POINTS": [
+    {
+     "x": 262,
+     "y": 411
+    },
+    {
+     "x": 343,
+     "y": 364
+    },
+    {
+     "x": 383,
+     "y": 423
+    },
+    {
+     "x": 305,
+     "y": 465
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 563,
+     "y": 314
+    },
+    "P2": {
+     "x": 504,
+     "y": 470
+    },
+    "P3": {
+     "x": 286,
+     "y": 507
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "TRIANGLE.ESCA",
+   "COLLECTED POINTS": [
+    {
+     "x": 563,
+     "y": 314
+    },
+    {
+     "x": 504,
+     "y": 470
+    },
+    {
+     "x": 286,
+     "y": 507
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 456,
+     "y": 540
+    },
+    "P2": {
+     "x": 512,
+     "y": 629
+    },
+    "P3": {
+     "x": 397,
+     "y": 648
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "TRIANGLE.EQUI",
+   "COLLECTED POINTS": [
+    {
+     "x": 456,
+     "y": 540
+    },
+    {
+     "x": 512,
+     "y": 629
+    },
+    {
+     "x": 397,
+     "y": 648
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 18,
+     "y": 595
+    },
+    "P2": {
+     "x": 259,
+     "y": 531
+    },
+    "P3": {
+     "x": 51,
+     "y": 661
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "TRIANGLE.RECT",
+   "COLLECTED POINTS": [
+    {
+     "x": 18,
+     "y": 595
+    },
+    {
+     "x": 259,
+     "y": 531
+    },
+    {
+     "x": 51,
+     "y": 661
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 457,
+     "y": 606
+    }
+   },
+   "PARENT": 4,
+   "CLASS": "COMMAND",
+   "TYPE": "P.FIXO",
+   "COLLECTED POINTS": [
+    {
+     "x": 457,
+     "y": 606
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 466,
+     "y": 433
+    }
+   },
+   "PARENT": 3,
+   "CLASS": "COMMAND",
+   "TYPE": "P.FIXO",
+   "COLLECTED POINTS": [
+    {
+     "x": 466,
+     "y": 433
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 333,
+     "y": 414
+    },
+    "P2": {
+     "x": 442,
+     "y": 337
+    }
+   },
+   "PARENT": 2,
+   "CLASS": "COMMAND",
+   "TYPE": "VECTOR",
+   "COLLECTED POINTS": [
+    {
+     "x": 333,
+     "y": 414
+    },
+    {
+     "x": 442,
+     "y": 337
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 84,
+     "y": 88
+    }
+   },
+   "PARENT": 0,
+   "CLASS": "COMMAND",
+   "TYPE": "P.FIXO",
+   "COLLECTED POINTS": [
+    {
+     "x": 84,
+     "y": 88
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 888,
+     "y": 130
+    },
+    "P2": {
+     "x": 744,
+     "y": 35
+    }
+   },
+   "PARENT": 1,
+   "CLASS": "COMMAND",
+   "TYPE": "ROPE",
+   "COLLECTED POINTS": [
+    {
+     "x": 888,
+     "y": 130
+    },
+    {
+     "x": 744,
+     "y": 35
+    }
+   ]
+  },
+  {
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 74,
+     "y": 611
+    }
+   },
+   "PARENT": 5,
+   "CLASS": "COMMAND",
+   "TYPE": "P.ROTA",
+   "COLLECTED POINTS": [
+    {
+     "x": 74,
+     "y": 611
+    }
+   ]
+  }
+ ]
+}
