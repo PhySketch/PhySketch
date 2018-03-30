@@ -1,0 +1,33 @@
+{
+ "TYPE": "TRIANGLE.RECT",
+ "CLASS": "PRIMITIVE",
+ "DESCRIPTOR": {
+  "P1": {
+   "x": 22,
+   "y": 89
+  },
+  "P2": {
+   "x": 121,
+   "y": 123
+  },
+  "P3": {
+   "x": 19,
+   "y": 117
+  }
+ },
+ "COLLECTED POINTS": [
+  {
+   "x": 22,
+   "y": 89
+  },
+  {
+   "x": 121,
+   "y": 123
+  },
+  {
+   "x": 19,
+   "y": 117
+  }
+ ],
+ "CATEGORY": "ELEMENT"
+}
