@@ -1,0 +1,311 @@
+{
+ "CATEGORY": "SCENE",
+ "ELEMENTS": [
+  {
+   "TYPE": "QUAD",
+   "COLLECTED POINTS": [
+    {
+     "y": 100,
+     "x": 14
+    },
+    {
+     "y": 101,
+     "x": 170
+    },
+    {
+     "y": 236,
+     "x": 171
+    },
+    {
+     "y": 241,
+     "x": 20
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 169.5,
+     "x": 93.75
+    },
+    "LENGTH": "153.54",
+    "THETA": "-0.0133"
+   }
+  },
+  {
+   "TYPE": "TRIANGLE.RECT",
+   "COLLECTED POINTS": [
+    {
+     "y": 80,
+     "x": 956
+    },
+    {
+     "y": 219,
+     "x": 937
+    },
+    {
+     "y": 227,
+     "x": 789
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 227,
+     "x": 789
+    },
+    "P1": {
+     "y": 80,
+     "x": 956
+    },
+    "P2": {
+     "y": 219,
+     "x": 937
+    }
+   }
+  },
+  {
+   "TYPE": "TRIANGLE.ESCA",
+   "COLLECTED POINTS": [
+    {
+     "y": 346,
+     "x": 749
+    },
+    {
+     "y": 481,
+     "x": 658
+    },
+    {
+     "y": 517,
+     "x": 448
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 517,
+     "x": 448
+    },
+    "P1": {
+     "y": 346,
+     "x": 749
+    },
+    "P2": {
+     "y": 481,
+     "x": 658
+    }
+   }
+  },
+  {
+   "TYPE": "QUAD",
+   "COLLECTED POINTS": [
+    {
+     "y": 391,
+     "x": 406
+    },
+    {
+     "y": 326,
+     "x": 522
+    },
+    {
+     "y": 432,
+     "x": 570
+    },
+    {
+     "y": 488,
+     "x": 455
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 409.25,
+     "x": 488.25
+    },
+    "LENGTH": "130.44",
+    "THETA": "-0.4820"
+   }
+  },
+  {
+   "TYPE": "TRIANGLE.ESCA",
+   "COLLECTED POINTS": [
+    {
+     "y": 573,
+     "x": 31
+    },
+    {
+     "y": 557,
+     "x": 405
+    },
+    {
+     "y": 691,
+     "x": 68
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 691,
+     "x": 68
+    },
+    "P1": {
+     "y": 573,
+     "x": 31
+    },
+    "P2": {
+     "y": 557,
+     "x": 405
+    }
+   }
+  },
+  {
+   "TYPE": "TRIANGLE.EQUI",
+   "COLLECTED POINTS": [
+    {
+     "y": 554,
+     "x": 571
+    },
+    {
+     "y": 683,
+     "x": 621
+    },
+    {
+     "y": 680,
+     "x": 504
+    }
+   ],
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 680,
+     "x": 504
+    },
+    "P1": {
+     "y": 554,
+     "x": 571
+    },
+    "P2": {
+     "y": 683,
+     "x": 621
+    }
+   }
+  },
+  {
+   "TYPE": "P.FIXO",
+   "PARENT": 0,
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 174,
+     "x": 90
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 174,
+     "x": 90
+    }
+   ]
+  },
+  {
+   "TYPE": "ROPE",
+   "PARENT": 1,
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P1": {
+     "y": 176,
+     "x": 889
+    },
+    "P2": {
+     "y": 65,
+     "x": 765
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 176,
+     "x": 889
+    },
+    {
+     "y": 65,
+     "x": 765
+    }
+   ]
+  },
+  {
+   "TYPE": "VECTOR",
+   "PARENT": 3,
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P1": {
+     "y": 408,
+     "x": 488
+    },
+    "P2": {
+     "y": 337,
+     "x": 621
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 408,
+     "x": 488
+    },
+    {
+     "y": 337,
+     "x": 621
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "PARENT": 2,
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 457,
+     "x": 631
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 457,
+     "x": 631
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "PARENT": 5,
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 648,
+     "x": 564
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 648,
+     "x": 564
+    }
+   ]
+  },
+  {
+   "TYPE": "P.ROTA",
+   "PARENT": 4,
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 629,
+     "x": 116
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "y": 629,
+     "x": 116
+    }
+   ]
+  }
+ ]
+}

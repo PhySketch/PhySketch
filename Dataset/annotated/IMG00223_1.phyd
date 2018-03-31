@@ -1,0 +1,25 @@
+{
+ "TYPE": "VECTOR",
+ "COLLECTED POINTS": [
+  {
+   "y": 267,
+   "x": 123
+  },
+  {
+   "y": 153,
+   "x": 248
+  }
+ ],
+ "CLASS": "COMMAND",
+ "DESCRIPTOR": {
+  "P1": {
+   "y": 267,
+   "x": 123
+  },
+  "P2": {
+   "y": 153,
+   "x": 248
+  }
+ },
+ "CATEGORY": "ELEMENT"
+}

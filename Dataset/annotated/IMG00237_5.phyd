@@ -1,0 +1,17 @@
+{
+ "TYPE": "P.FIXO",
+ "COLLECTED POINTS": [
+  {
+   "y": 293,
+   "x": 112
+  }
+ ],
+ "CLASS": "COMMAND",
+ "DESCRIPTOR": {
+  "CENTER": {
+   "y": 293,
+   "x": 112
+  }
+ },
+ "CATEGORY": "ELEMENT"
+}
