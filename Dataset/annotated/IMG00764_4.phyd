@@ -3,14 +3,14 @@
  "CLASS": "COMMAND",
  "DESCRIPTOR": {
   "CENTER": {
-   "x": 103,
-   "y": 288
+   "x": 105,
+   "y": 287
   }
  },
  "COLLECTED POINTS": [
   {
-   "x": 103,
-   "y": 288
+   "x": 105,
+   "y": 287
   }
  ],
  "CATEGORY": "ELEMENT"
