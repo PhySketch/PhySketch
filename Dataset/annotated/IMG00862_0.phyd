@@ -1,0 +1,17 @@
+{
+ "TYPE": "P.ROTA",
+ "CLASS": "COMMAND",
+ "DESCRIPTOR": {
+  "CENTER": {
+   "x": 83,
+   "y": 244
+  }
+ },
+ "COLLECTED POINTS": [
+  {
+   "x": 83,
+   "y": 244
+  }
+ ],
+ "CATEGORY": "ELEMENT"
+}
