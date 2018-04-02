@@ -45,14 +45,14 @@ class Sample:
             if self.interpretador.fim_coleta == True:
                 cv.circle(self.imageClone, self.pMouse, 4, (0, 255, 0), -1)
             else:
-                cv.circle(self.imageClone, self.pMouse, 4, (0, 0, 255), -1)
+                cv.circle(self.imageClone, self.pMouse, 4, (255, 255, 0), -1)
             for ponto in self.interpretador.pontos_coletados:
                 if self.interpretador.fim_coleta == True:
 
                     cv.circle(self.imageClone, ponto.to_int(), 5, (0, 255, 0), 1)
                 else:
 
-                    cv.circle(self.imageClone, ponto.to_int(), 4, (255, 0, 0), -1)
+                    cv.circle(self.imageClone, ponto.to_int(), 4, (255, 255, 0), -1)
         if self.is_cenario:
 
             for ponto in self.pontos_coletados_cenario:
