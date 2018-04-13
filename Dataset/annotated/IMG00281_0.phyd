@@ -1,0 +1,25 @@
+{
+ "CLASS": "COMMAND",
+ "COLLECTED POINTS": [
+  {
+   "y": 260,
+   "x": 153
+  },
+  {
+   "y": 90,
+   "x": 166
+  }
+ ],
+ "DESCRIPTOR": {
+  "P1": {
+   "y": 260,
+   "x": 153
+  },
+  "P2": {
+   "y": 90,
+   "x": 166
+  }
+ },
+ "TYPE": "ROPE",
+ "CATEGORY": "ELEMENT"
+}
