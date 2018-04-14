@@ -1,0 +1,234 @@
+{
+ "ELEMENTS": [
+  {
+   "TYPE": "CIRCLE",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 465.75,
+     "y": 341.25
+    },
+    "RADIUS": "74.82"
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 470,
+     "y": 258
+    },
+    {
+     "x": 468,
+     "y": 418
+    },
+    {
+     "x": 393,
+     "y": 345
+    },
+    {
+     "x": 532,
+     "y": 344
+    }
+   ]
+  },
+  {
+   "TYPE": "QUAD",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 141.5,
+     "y": 581.75
+    },
+    "LENGTH": "163.97",
+    "THETA": "-0.0532"
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 57,
+     "y": 507
+    },
+    {
+     "x": 212,
+     "y": 513
+    },
+    {
+     "x": 234,
+     "y": 641
+    },
+    {
+     "x": 63,
+     "y": 666
+    }
+   ]
+  },
+  {
+   "TYPE": "QUAD",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 833.0,
+     "y": 167.0
+    },
+    "LENGTH": "130.02",
+    "THETA": "-0.0078"
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 773,
+     "y": 99
+    },
+    {
+     "x": 904,
+     "y": 100
+    },
+    {
+     "x": 892,
+     "y": 233
+    },
+    {
+     "x": 763,
+     "y": 236
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.RECT",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 45,
+     "y": 130
+    },
+    "P2": {
+     "x": 194,
+     "y": 106
+    },
+    "P3": {
+     "x": 55,
+     "y": 217
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 45,
+     "y": 130
+    },
+    {
+     "x": 194,
+     "y": 106
+    },
+    {
+     "x": 55,
+     "y": 217
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.RECT",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 833,
+     "y": 457
+    },
+    "P2": {
+     "x": 859,
+     "y": 627
+    },
+    "P3": {
+     "x": 693,
+     "y": 644
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 833,
+     "y": 457
+    },
+    {
+     "x": 859,
+     "y": 627
+    },
+    {
+     "x": 693,
+     "y": 644
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 131,
+     "y": 613
+    }
+   },
+   "PARENT": 1,
+   "COLLECTED POINTS": [
+    {
+     "x": 131,
+     "y": 613
+    }
+   ]
+  },
+  {
+   "TYPE": "P.ROTA",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 453,
+     "y": 361
+    }
+   },
+   "PARENT": 0,
+   "COLLECTED POINTS": [
+    {
+     "x": 453,
+     "y": 361
+    }
+   ]
+  },
+  {
+   "TYPE": "P.ROTA",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 798,
+     "y": 584
+    }
+   },
+   "PARENT": 4,
+   "COLLECTED POINTS": [
+    {
+     "x": 798,
+     "y": 584
+    }
+   ]
+  },
+  {
+   "TYPE": "VECTOR",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 101,
+     "y": 149
+    },
+    "P2": {
+     "x": 167,
+     "y": 214
+    }
+   },
+   "PARENT": 3,
+   "COLLECTED POINTS": [
+    {
+     "x": 101,
+     "y": 149
+    },
+    {
+     "x": 167,
+     "y": 214
+    }
+   ]
+  }
+ ],
+ "CATEGORY": "SCENE"
+}
