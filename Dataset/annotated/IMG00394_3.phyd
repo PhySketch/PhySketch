@@ -1,0 +1,33 @@
+{
+ "COLLECTED POINTS": [
+  {
+   "y": 82,
+   "x": 14
+  },
+  {
+   "y": 179,
+   "x": 161
+  },
+  {
+   "y": 187,
+   "x": 82
+  }
+ ],
+ "CATEGORY": "ELEMENT",
+ "DESCRIPTOR": {
+  "P3": {
+   "y": 187,
+   "x": 82
+  },
+  "P1": {
+   "y": 82,
+   "x": 14
+  },
+  "P2": {
+   "y": 179,
+   "x": 161
+  }
+ },
+ "CLASS": "PRIMITIVE",
+ "TYPE": "TRIANGLE.ESCA"
+}

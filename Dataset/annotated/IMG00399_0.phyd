@@ -1,0 +1,192 @@
+{
+ "ELEMENTS": [
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 54,
+     "x": 539
+    },
+    {
+     "y": 181,
+     "x": 539
+    },
+    {
+     "y": 114,
+     "x": 470
+    },
+    {
+     "y": 121,
+     "x": 607
+    }
+   ],
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 117.5,
+     "x": 538.75
+    },
+    "RADIUS": "66.04"
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "CIRCLE"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 304,
+     "x": 117
+    },
+    {
+     "y": 414,
+     "x": 169
+    },
+    {
+     "y": 411,
+     "x": 59
+    }
+   ],
+   "DESCRIPTOR": {
+    "P3": {
+     "y": 411,
+     "x": 59
+    },
+    "P1": {
+     "y": 304,
+     "x": 117
+    },
+    "P2": {
+     "y": 414,
+     "x": 169
+    }
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "TRIANGLE.EQUI"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 355,
+     "x": 857
+    },
+    {
+     "y": 551,
+     "x": 850
+    },
+    {
+     "y": 468,
+     "x": 737
+    },
+    {
+     "y": 466,
+     "x": 958
+    }
+   ],
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 460.0,
+     "x": 850.5
+    },
+    "RADIUS": "104.41"
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "CIRCLE"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 452,
+     "x": 512
+    },
+    {
+     "y": 600,
+     "x": 620
+    },
+    {
+     "y": 741,
+     "x": 504
+    },
+    {
+     "y": 608,
+     "x": 383
+    }
+   ],
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 600.25,
+     "x": 504.75
+    },
+    "THETA": "-0.8811",
+    "LENGTH": "192.51"
+   },
+   "CLASS": "PRIMITIVE",
+   "TYPE": "QUAD"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 469,
+     "x": 852
+    },
+    {
+     "y": 82,
+     "x": 883
+    }
+   ],
+   "DESCRIPTOR": {
+    "P1": {
+     "y": 469,
+     "x": 852
+    },
+    "P2": {
+     "y": 82,
+     "x": 883
+    }
+   },
+   "PARENT": 2,
+   "CLASS": "COMMAND",
+   "TYPE": "ROPE"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 373,
+     "x": 115
+    },
+    {
+     "y": 362,
+     "x": 265
+    }
+   ],
+   "DESCRIPTOR": {
+    "P1": {
+     "y": 373,
+     "x": 115
+    },
+    "P2": {
+     "y": 362,
+     "x": 265
+    }
+   },
+   "PARENT": 1,
+   "CLASS": "COMMAND",
+   "TYPE": "VECTOR"
+  },
+  {
+   "COLLECTED POINTS": [
+    {
+     "y": 600,
+     "x": 504
+    }
+   ],
+   "DESCRIPTOR": {
+    "CENTER": {
+     "y": 600,
+     "x": 504
+    }
+   },
+   "PARENT": 3,
+   "CLASS": "COMMAND",
+   "TYPE": "P.ROTA"
+  }
+ ],
+ "CATEGORY": "SCENE"
+}
