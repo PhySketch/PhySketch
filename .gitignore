@@ -93,9 +93,12 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
-bin/*
-built_graph/*
-cfg/*
-ckpt/*
+physketch/prediction/darknet/bin/*
+physketch/prediction/darknet/built_graph/*
+physketch/prediction/darknet/cfg/*
+physketch/prediction/darknet/ckpt/*
+physketch/prediction/darknet/dataset-darknet/*
+Dataset/generated/*
+*/__pycache__/*
 
 # End of https://www.gitignore.io/api/macos,pycharm

@@ -1,2 +1,0 @@
-/Users/zulli/Library/Enthought/Canopy/edm/envs/User/Resources/Python.app/Contents/MacOS/Python /Users/zulli/Desktop/darkflow/flow --model /Users/zulli/Desktop/PhySketch/src/prediction/darknet/cfg/tiny-yolo-voc-psk.cfg --load /Users/zulli/Desktop/PhySketch/src/prediction/darknet/bin/tiny-yolo-voc.weights --train --annotation /Users/zulli/Desktop/PhySketch/src/prediction/darknet/dataset-darknet --dataset /Users/zulli/Desktop/PhySketch/Dataset/cropped --labels /Users/zulli/Desktop/PhySketch/src/prediction/darknet/labels.txt --epoch 100 --save 1000 --gpu 1.0
-
