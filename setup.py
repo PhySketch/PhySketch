@@ -10,5 +10,8 @@ setup(name='PhySketch',
       packages=['physketch','physketch.prediction'],
       install_requires=[
             'numpy>=1.14.2',
-            'opencv>=3.2.0']
+            'opencv-python>=3.2.0',
+            'matplotlib>=2.2.2',
+            'darkflow>=1.0.0',
+            'tensorflow=1.7.0']
      )

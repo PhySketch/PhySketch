@@ -13,12 +13,13 @@ CLAHE = cv.createCLAHE(clipLimit=3, tileGridSize=(16, 16))
 class _Sample:
 
     def __init__(self, sample_id, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         self.texture = None
         self.width = width
         self.height = height
         self.sample_id = sample_id
         self.image_path = None
+        self.image_dir = image_dir if image_dir is not None else os.path.join(config.DATASET_PATH,'cropped/')
 
         if scene_element:
             assert (scene_texture is not None)
@@ -47,13 +48,13 @@ class _Sample:
 
         image = np.ones((self.width, self.height, 3), dtype=np.uint8)*255
 
-        self.image_path = os.path.join(config.DATASET_PATH, 'cropped/' + sample_id + '.png')
+        self.image_path = os.path.join(self.image_dir, sample_id + '.png')
         self.sample_id = sample_id
         self.set_texture(image)
 
     def load_sample(self, sample_id):
 
-        self.image_path = os.path.join(config.DATASET_PATH, 'cropped/' + sample_id + '.png')
+        self.image_path = os.path.join(self.image_dir,  sample_id + '.png')
 
         if not os.path.isfile(self.image_path):
             log.error("File not found: " + self.image_path)
@@ -67,7 +68,7 @@ class _Sample:
 
     def save_sample(self, overwrite=False):
 
-        image_path = os.path.join(config.DATASET_PATH, 'cropped/' + self.sample_id + '.png')
+        image_path = os.path.join(self.image_dir, self.sample_id + '.png')
         if os.path.isfile(image_path) and not overwrite:
             log.error("File already exists: " + image_path)
             return False
@@ -81,9 +82,9 @@ class _Sample:
 class Scene(_Sample):
 
     def __init__(self, sample_id, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id,load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.elements = []
 
     def add_element(self, ele):
@@ -147,10 +148,10 @@ class Scene(_Sample):
 class Element(_Sample):
 
     def __init__(self, sample_id, points, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
 
         super().__init__(sample_id, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
 
         self._texture_coords = []
         self._texture_center = Point(0, 0)
@@ -398,17 +399,17 @@ class Element(_Sample):
 class Primitive(Element):
 
     def __init__(self, sample_id, points, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id, points=points, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
 
 
 class Command(Element):
 
     def __init__(self, sample_id, points, parent=None, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id, points=points, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self._parent = None
         if parent is not None:
             self.set_parent(parent)
@@ -431,10 +432,10 @@ class Command(Element):
 class Circle(Primitive):
 
     def __init__(self, sample_id, center, rad, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         self.rad = rad
         super().__init__(sample_id, points=[center], load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
 
         self.element_type = consts.ANOT_TIPO_CIRCULO_STR
 
@@ -471,9 +472,9 @@ class Circle(Primitive):
 class Quad(Primitive):
 
     def __init__(self, sample_id, p1, p2, p3, p4, length, theta, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id, points=[p1, p2, p3, p4], load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.length = length
         self.theta = theta
         self.element_type = consts.ANOT_TIPO_QUAD_STR
@@ -503,9 +504,9 @@ class Quad(Primitive):
 class Triangle(Primitive):
 
     def __init__(self, element_type, sample_id, p1, p2, p3, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id, points=[p1, p2, p3], load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.element_type = element_type
 
 
@@ -524,9 +525,9 @@ class Triangle(Primitive):
 class PointCommand(Command):
 
     def __init__(self, element_type, sample_id, center, parent=None, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id, points=[center], parent=parent, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.element_type = element_type
 
     def draw_annotation(self, destination=None):
@@ -548,9 +549,9 @@ class PointCommand(Command):
 class LineCommand(Command):
 
     def __init__(self, element_type, sample_id, p1, p2, parent=None, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None):
+                 scene_texture=None, image_dir=None):
         super().__init__(sample_id, points=[p1, p2], parent=parent, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
-                         scene_element=scene_element, scene_texture=scene_texture)
+                         scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.element_type = element_type
 
     def draw_annotation(self, destination=None):

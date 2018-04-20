@@ -19,15 +19,21 @@ class _PythonObjectEncoder(JSONEncoder):
 class SampleParser:
 
     @staticmethod
-    def parse_sample(sample_id, base_path=None):
-        if base_path!=None:
-            input_dir = base_path
-            config.DATASET_PATH = base_path
-        else:
-            input_dir = config.DATASET_PATH
+    def parse_sample(sample_id, base_path=None, image_dir=None, annotation_dir=None):
+        #define base path (regular base structure) or image_dir and annotation dir
+        assert((base_path is not None and image_dir is None and annotation_dir is None)
+        or (base_path is None and image_dir is not None and annotation_dir is not None))
 
-        path_img = os.path.join(input_dir, 'cropped/' + sample_id + '.png')
-        path_annotation = os.path.join(input_dir, 'annotated/' + sample_id + '.phyd')
+        if base_path is not None:
+            config.DATASET_PATH = base_path
+            path_img = os.path.join(base_path, 'cropped/' + sample_id + '.png')
+            path_annotation = os.path.join(base_path, 'annotated/' + sample_id + '.phyd')
+        elif image_dir is not None and annotation_dir is not None:
+            path_img = os.path.join(image_dir, sample_id + '.png')
+            path_annotation = os.path.join(annotation_dir, sample_id + '.phyd')
+        else:
+            path_img = os.path.join(config.DATASET_PATH, 'cropped/' + sample_id + '.png')
+            path_annotation = os.path.join(config.DATASET_PATH, 'annotated/' + sample_id + '.phyd')
 
         if not os.path.isfile(path_img) or not os.path.isfile(path_annotation):
             log.error("File not found " + path_annotation + " - " + path_img)
@@ -37,15 +43,15 @@ class SampleParser:
             annotation = json.load(infile)
 
         if consts.ANOT_ELEMENT_LIST not in annotation: #elemento
-            sample = SampleParser._element_parser_by_type(annotation).parse_annotation(sample_id, annotation)
-
+            sample = SampleParser._element_parser_by_type(annotation).parse_annotation(sample_id, annotation,
+                                                                                       image_dir=base_path)
 
         else:  # cenario
-            sample = Scene(sample_id)
+            sample = Scene(sample_id,image_dir=image_dir)
 
             for ele in annotation[consts.ANOT_ELEMENT_LIST]:
                 sample.add_element(SampleParser._element_parser_by_type(ele).parse_annotation(sample_id, ele,
-                            is_scene=True, scene_texture=sample.texture))
+                            is_scene=True, scene_texture=sample.texture, image_dir=image_dir))
 
         return sample
 
@@ -116,11 +122,11 @@ class SampleParser:
 class CircleParser:
 
     @staticmethod
-    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None):
+    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
         center = Point(ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['x'],ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['y'])
         rad = int(float(ele[consts.ANOT_DESCRIPTOR][consts.ANOT_RADIUS]))
 
-        return Circle(sample_id, center, rad, scene_element=is_scene,scene_texture=scene_texture)
+        return Circle(sample_id, center, rad, scene_element=is_scene,scene_texture=scene_texture, image_dir=image_dir)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):
@@ -137,7 +143,7 @@ class CircleParser:
 class QuadParser:
 
     @staticmethod
-    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None):
+    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
 
         center = Point(ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['x'],
                        ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['y'])
@@ -162,7 +168,7 @@ class QuadParser:
         p4_final = center + Point(p4_t.x * math.cos(theta) - p4_t.y * math.sin(theta),
                                   p4_t.x * math.sin(theta) + p4_t.y * math.cos(theta))
 
-        return Quad(sample_id, p1_final, p2_final, p3_final, p4_final, length, theta, scene_element=is_scene, scene_texture=scene_texture)
+        return Quad(sample_id, p1_final, p2_final, p3_final, p4_final, length, theta, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):
@@ -180,7 +186,7 @@ class QuadParser:
 class TriangleParser:
 
     @staticmethod
-    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None):
+    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
 
         p1 = ele[consts.ANOT_DESCRIPTOR][consts.ANOT_P1]
         p1 = Point(int(float(p1['x'])), int(float(p1['y'])))
@@ -193,7 +199,7 @@ class TriangleParser:
 
         #print (np.int32(np.array([p1, p2, p3])))
 
-        return Triangle(ele[consts.ANOT_TIPO_STR], sample_id, p1, p2, p3, scene_element=is_scene,scene_texture=scene_texture)
+        return Triangle(ele[consts.ANOT_TIPO_STR], sample_id, p1, p2, p3, scene_element=is_scene,scene_texture=scene_texture, image_dir=image_dir)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):
@@ -211,10 +217,10 @@ class TriangleParser:
 class PointCommandParser:
 
     @staticmethod
-    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None):
+    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
 
         center = Point(ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['x'],ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['y'])
-        return PointCommand(ele[consts.ANOT_TIPO_STR], sample_id, center, scene_element=is_scene, scene_texture=scene_texture)
+        return PointCommand(ele[consts.ANOT_TIPO_STR], sample_id, center, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):
@@ -231,7 +237,7 @@ class PointCommandParser:
 class LineCommandParser:
 
     @staticmethod
-    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None):
+    def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
 
         p1 = ele[consts.ANOT_DESCRIPTOR][consts.ANOT_P1]
         p1 = Point(int(float(p1['x'])), int(float(p1['y'])))
@@ -239,7 +245,7 @@ class LineCommandParser:
         p2 = ele[consts.ANOT_DESCRIPTOR][consts.ANOT_P2]
         p2 = Point(int(float(p2['x'])), int(float(p2['y'])))
 
-        return LineCommand(ele[consts.ANOT_TIPO_STR], sample_id, p1, p2, scene_element=is_scene, scene_texture=scene_texture)
+        return LineCommand(ele[consts.ANOT_TIPO_STR], sample_id, p1, p2, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):

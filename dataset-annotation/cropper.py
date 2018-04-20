@@ -10,7 +10,6 @@ import copy
 import logging as log
 
 
-
 class SampleCropper:
     path = ''
     filename = ''
