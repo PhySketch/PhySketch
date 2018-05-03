@@ -1,0 +1,311 @@
+{
+ "ELEMENTS": [
+  {
+   "TYPE": "QUAD",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 159.0,
+     "y": 152.25
+    },
+    "LENGTH": "143.04",
+    "THETA": "-0.0175"
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 89,
+     "y": 90
+    },
+    {
+     "x": 232,
+     "y": 90
+    },
+    {
+     "x": 229,
+     "y": 212
+    },
+    {
+     "x": 86,
+     "y": 217
+    }
+   ]
+  },
+  {
+   "TYPE": "QUAD",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 428.5,
+     "y": 326.25
+    },
+    "LENGTH": "106.11",
+    "THETA": "-0.7024"
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 432,
+     "y": 253
+    },
+    {
+     "x": 506,
+     "y": 331
+    },
+    {
+     "x": 422,
+     "y": 399
+    },
+    {
+     "x": 354,
+     "y": 322
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.RECT",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 1000,
+     "y": 36
+    },
+    "P2": {
+     "x": 1007,
+     "y": 223
+    },
+    "P3": {
+     "x": 841,
+     "y": 216
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 1000,
+     "y": 36
+    },
+    {
+     "x": 1007,
+     "y": 223
+    },
+    {
+     "x": 841,
+     "y": 216
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.ESCA",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 747,
+     "y": 206
+    },
+    "P2": {
+     "x": 647,
+     "y": 405
+    },
+    "P3": {
+     "x": 370,
+     "y": 465
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 747,
+     "y": 206
+    },
+    {
+     "x": 647,
+     "y": 405
+    },
+    {
+     "x": 370,
+     "y": 465
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.RECT",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 62,
+     "y": 626
+    },
+    "P2": {
+     "x": 123,
+     "y": 698
+    },
+    "P3": {
+     "x": 359,
+     "y": 506
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 62,
+     "y": 626
+    },
+    {
+     "x": 123,
+     "y": 698
+    },
+    {
+     "x": 359,
+     "y": 506
+    }
+   ]
+  },
+  {
+   "TYPE": "TRIANGLE.EQUI",
+   "CLASS": "PRIMITIVE",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 530,
+     "y": 590
+    },
+    "P2": {
+     "x": 581,
+     "y": 695
+    },
+    "P3": {
+     "x": 458,
+     "y": 697
+    }
+   },
+   "COLLECTED POINTS": [
+    {
+     "x": 530,
+     "y": 590
+    },
+    {
+     "x": 581,
+     "y": 695
+    },
+    {
+     "x": 458,
+     "y": 697
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 157,
+     "y": 152
+    }
+   },
+   "PARENT": 0,
+   "COLLECTED POINTS": [
+    {
+     "x": 157,
+     "y": 152
+    }
+   ]
+  },
+  {
+   "TYPE": "VECTOR",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 425,
+     "y": 333
+    },
+    "P2": {
+     "x": 535,
+     "y": 224
+    }
+   },
+   "PARENT": 1,
+   "COLLECTED POINTS": [
+    {
+     "x": 425,
+     "y": 333
+    },
+    {
+     "x": 535,
+     "y": 224
+    }
+   ]
+  },
+  {
+   "TYPE": "ROPE",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "P1": {
+     "x": 974,
+     "y": 175
+    },
+    "P2": {
+     "x": 733,
+     "y": 15
+    }
+   },
+   "PARENT": 2,
+   "COLLECTED POINTS": [
+    {
+     "x": 974,
+     "y": 175
+    },
+    {
+     "x": 733,
+     "y": 15
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 604,
+     "y": 358
+    }
+   },
+   "PARENT": 3,
+   "COLLECTED POINTS": [
+    {
+     "x": 604,
+     "y": 358
+    }
+   ]
+  },
+  {
+   "TYPE": "P.ROTA",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 155,
+     "y": 628
+    }
+   },
+   "PARENT": 4,
+   "COLLECTED POINTS": [
+    {
+     "x": 155,
+     "y": 628
+    }
+   ]
+  },
+  {
+   "TYPE": "P.FIXO",
+   "CLASS": "COMMAND",
+   "DESCRIPTOR": {
+    "CENTER": {
+     "x": 523,
+     "y": 663
+    }
+   },
+   "PARENT": 5,
+   "COLLECTED POINTS": [
+    {
+     "x": 523,
+     "y": 663
+    }
+   ]
+  }
+ ],
+ "CATEGORY": "SCENE"
+}

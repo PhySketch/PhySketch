@@ -1,0 +1,31 @@
+{
+ "TYPE": "QUAD",
+ "CLASS": "PRIMITIVE",
+ "DESCRIPTOR": {
+  "CENTER": {
+   "x": 109.25,
+   "y": 146.25
+  },
+  "LENGTH": "102.88",
+  "THETA": "0.0681"
+ },
+ "COLLECTED POINTS": [
+  {
+   "x": 54,
+   "y": 69
+  },
+  {
+   "x": 167,
+   "y": 82
+  },
+  {
+   "x": 154,
+   "y": 218
+  },
+  {
+   "x": 62,
+   "y": 216
+  }
+ ],
+ "CATEGORY": "ELEMENT"
+}
