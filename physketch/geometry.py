@@ -23,10 +23,16 @@ class Point(object):
         return '(%g, %g)' % (self.x, self.y)
 
     def __add__(self, other):
-        return Point(self.x + other.x, self.y + other.y)
+        if isinstance(other, Point):
+            return Point(self.x + other.x, self.y + other.y)
+        else:
+            return Point(self.x + other, self.y + other)
 
     def __sub__(self, other):
-        return Point(self.x - other.x, self.y - other.y)
+        if isinstance(other, Point):
+            return Point(self.x - other.x, self.y - other.y)
+        else:
+            return Point(self.x - other, self.y - other)
 
     def __mul__(self, other):
         if isinstance(other, Point):

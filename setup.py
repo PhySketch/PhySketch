@@ -13,5 +13,6 @@ setup(name='PhySketch',
             'opencv-python>=3.2.0',
             'matplotlib>=2.2.2',
             'darkflow>=1.0.0',
-            'tensorflow=1.7.0']
+            'tensorflow>=1.7.0',
+            'lxml>=4.2.0']
      )

@@ -20,7 +20,8 @@ class _Sample:
         self.sample_id = sample_id
         self.image_path = None
         self.image_dir = image_dir if image_dir is not None else os.path.join(config.DATASET_PATH,'cropped/')
-
+        self.scene_element = scene_element
+        self.scale_factor = 1.0
         if scene_element:
             assert (scene_texture is not None)
             self.texture = scene_texture
@@ -46,7 +47,7 @@ class _Sample:
     def _new_sample(self, sample_id):
         assert(self.width > 0 and self.height > 0)
 
-        image = np.ones((self.width, self.height, 3), dtype=np.uint8)*255
+        image = np.ones((self.height, self.width, 3), dtype=np.uint8)*255
 
         self.image_path = os.path.join(self.image_dir, sample_id + '.png')
         self.sample_id = sample_id
@@ -105,9 +106,32 @@ class Scene(_Sample):
                         intersects = True
 
             if not intersects:
+                alpha = np.zeros((ele.height, ele.width, 3), dtype="float")
+                temp = ele.blending_mask.astype(float) / 255
+                alpha[:, :, 0] = temp
+                alpha[:, :, 1] = temp
+                alpha[:, :, 2] = temp
 
+                foreground = ele.texture.astype(float) * (1 / 255.0)
+                background = self.texture[int(ele.position.y):int(ele.position.y + ele.height),
+                int(ele.position.x):int(ele.position.x + ele.width)].astype(float) * (1 / 255.0)
+
+                foreground = cv.multiply(alpha, foreground)
+                background = cv.multiply(1.0 - alpha, background)
+
+
+                outImage = (cv.add(foreground, background) * 255.0).astype("uint8")
+
+                self.texture[int(ele.position.y):int(ele.position.y + ele.height),
+                int(ele.position.x):int(ele.position.x + ele.width)] = outImage
+
+                ele.scene_id = len(self.elements)
+                self.elements.append(ele)
+                return True
+
+                """
                 #print("alo", ele.mask.shape, ele.texture.shape)
-                background_mask = 255 - ele.mask
+                background_mask = 255 - ele.blending_mask
                 overlay_mask = cv.cvtColor(ele.mask, cv.COLOR_GRAY2BGR)
                 background_mask = cv.cvtColor(background_mask, cv.COLOR_GRAY2BGR)
 
@@ -117,29 +141,44 @@ class Scene(_Sample):
                 face_part = (texture * (1 / 255.0)) * (background_mask * (1 / 255.0))
                 overlay_part = (ele.texture * (1 / 255.0)) * (overlay_mask * (1 / 255.0))
 
+                #cv.imshow("1", ele.texture)
+                #cv.imshow("2", overlay_mask)
+                #cv.imshow("3", overlay_part)
+                #cv.imshow("4", face_part)
+                #overlay_mask2 = cv.inRange(overlay_part,0,0)
+                #overlay_part = (ele.texture * (1 / 255.0)) * (overlay_mask2 * (1 / 255.0))
+
+                #cv.imshow("5", overlay_mask2)
+               # cv.imshow("5", overlay_part)
+
+
+                #temp, abc = cv.threshold(abc, 127, 255, cv.THRESH_TOZERO_INV)
+                #cv.imshow("alo2", abc)
+                #cv.waitKey(0)
                 result = np.uint8(cv.addWeighted(face_part, 255.0, overlay_part, 255.0, 0.0))
 
                 self.texture[int(ele.position.y):int(ele.position.y + ele.height),
-               int(ele.position.x):int(ele.position.x + ele.width)] = result
+                int(ele.position.x):int(ele.position.x + ele.width)] = result
 
                 #0-based id
                 ele.scene_id = len(self.elements)
                 self.elements.append(ele)
 
                 return True
+                """
 
             else:
                 return False
         else:
             return False
 
-    def draw_annotation(self, destination=None):
+    def draw_annotation(self, destination=None, draw_bbox=False):
 
         if destination is None:
             destination = self.texture
 
         for ele in self.elements:
-                ele.draw_annotation(destination)
+                ele.draw_annotation(destination=destination,draw_bbox=draw_bbox)
 
     @property
     def mask(self):
@@ -164,6 +203,8 @@ class Element(_Sample):
 
         self.add_point(*points)
 
+        self._blending_mask = None
+
         self.scene_element = scene_element
         if not self.scene_element:
             self._mask = self._compute_mask()
@@ -179,6 +220,10 @@ class Element(_Sample):
     @property
     def mask(self):
         return self._mask
+
+    @property
+    def blending_mask(self):
+        return self._blending_mask
 
     @property
     def texture_coords(self):
@@ -233,6 +278,10 @@ class Element(_Sample):
         self._calculate_bbox()
         return Point(self.minx, self.miny), Point(self.maxx, self.maxy), self.maxx - self.minx, self.maxy - self.miny
 
+    def draw_bbox(self,destination):
+        min,max,w,h = self.bbox
+        cv.rectangle(destination,min.to_tuple(),max.to_tuple(),(120,120,120),2)
+
     def _translate_annotation_to(self, pt):
         delta = (pt - self.texture_center)
         self._translate_annotation(delta)
@@ -272,6 +321,8 @@ class Element(_Sample):
 
     def scale(self, factor):
 
+        self.scale_factor *= factor
+
         inter = cv.INTER_CUBIC
         if - 1.0 < factor < 1.0:
             inter = cv.INTER_AREA
@@ -310,17 +361,24 @@ class Element(_Sample):
         self._translate_annotation_to(Point(0.5, 0.5))
         self._calculate_bbox()
 
-
     def contains(self,other):
-        texture =other.mask
-        if other.scene_element:
-            texture =  other.texture
-        p1 = other.absolute_center + Point(-texture.shape[1] / 2, -texture.shape[0] / 2)
-        p2 = other.absolute_center + Point(-texture.shape[1] / 2, texture.shape[0] / 2)
-        p3 = other.absolute_center + Point(texture.shape[1] / 2, -texture.shape[0] / 2)
-        p4 = other.absolute_center + Point(texture.shape[1] / 2, texture.shape[0] / 2)
+        #texture = other.mask
+        #if other.scene_element:
+        #    texture = other.texture
 
-        if not self.is_point_inside(p1) or not self.is_point_inside(p2) or not self.is_point_inside(p3)  or not self.is_point_inside(p4):
+        #p1 = other.absolute_center + Point(-texture.shape[1] / 2, -texture.shape[0] / 2)
+        #p2 = other.absolute_center + Point(-texture.shape[1] / 2, texture.shape[0] / 2)
+        #p3 = other.absolute_center + Point(texture.shape[1] / 2, -texture.shape[0] / 2)
+        #p4 = other.absolute_center + Point(texture.shape[1] / 2, texture.shape[0] / 2)
+
+        p1,p2,w,h = other.bbox
+        p1 += other.absolute_center
+        p2 += other.absolute_center
+        p3 = p1 + Point(w, 0)
+        p4 = p1 + Point(0, h)
+
+        p_sum = int(self.is_point_inside(p1)) + int(self.is_point_inside(p2)) + int(self.is_point_inside(p3)) + int(self.is_point_inside(p4))
+        if p_sum <= 3:
             return False
 
         return True
@@ -348,6 +406,9 @@ class Element(_Sample):
 
         closing = cv.dilate(thresh, (3,3),iterations = 5)
 
+        blur  = cv.blur(closing, (18, 18))
+        self._blending_mask = 3/4 * thresh + 1/4 *blur
+
         mask = closing
         result_image = self.texture
         temp, contours, hierarchy = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -367,6 +428,7 @@ class Element(_Sample):
                 dy = math.ceil(self.center.y - PY - H / 2)
 
                 mask = np.zeros((H + abs(dy), W + abs(dx)), dtype=np.uint8)
+                blending_mask = np.zeros((H + abs(dy), W + abs(dx)), dtype=np.uint8)
 
                 result_image = 255 * np.ones((H + abs(dy), W + abs(dx), 3), dtype=np.uint8)
 
@@ -377,11 +439,13 @@ class Element(_Sample):
                 result_image[pad_top:H + pad_top, pad_left:W + pad_left, :] = self.texture[PY:PY + H,
                                                                              PX:PX + W]
 
+                blending_mask[pad_top:H + pad_top, pad_left:W + pad_left] = self._blending_mask[PY:PY + H,PX:PX + W]
+
+                self._blending_mask = blending_mask
+
                 new_px, new_py = PX - pad_left, PY - pad_top
                 new_w, new_h = mask.shape[1], mask.shape[0]
                 self._crop_annotation(new_px, new_py, new_w, new_h)
-
-
 
         self.texture = result_image
 
@@ -450,7 +514,7 @@ class Circle(Primitive):
                         self.absolute_center.y + self.rad * math.sin((math.pi*2/config.CIRCLE_PRECISION)*i))
                  for i in range(config.CIRCLE_PRECISION)]
 
-    def draw_annotation(self, destination=None):
+    def draw_annotation(self, draw_bbox=False, destination=None):
 
         vertex_list = self.absolute_vertex_list
         if destination is None:
@@ -461,6 +525,23 @@ class Circle(Primitive):
             cv.circle(destination, pt.to_tuple(), 2, (0, 255, 0), 2)
 
         cv.circle(destination, vertex_list[0].to_tuple(), int(self.rad), (255, 0, 0), 2)
+
+        if draw_bbox:
+            self.draw_bbox(destination)
+
+    def is_point_inside(self, target):
+        j = len(self.intersection_points)-1
+        oddNodes = False
+        for i in range(len(self.intersection_points)-1):
+            pi = self.intersection_points[i]
+            pj = self.intersection_points[j]
+
+            if (pi.y < target.y and pj.y >= target.y) or (pj.y < target.y and pi.y >= target.y):
+                if pi.x <= target.x or pj.x <= target.x:
+                    oddNodes |= (True if pi.x + ( target.y - pi.y)/(pj.y-pi.y)*(pj.x-pi.x)< target.x else False)
+                    j = i
+
+        return oddNodes
 
     def _calculate_bbox(self):
         minpt = self.absolute_center - Point(self.rad,self.rad)
@@ -487,7 +568,7 @@ class Quad(Primitive):
         self.theta += angle
         super().rotate_by(angle)
 
-    def draw_annotation(self, destination=None):
+    def draw_annotation(self, draw_bbox=False,destination=None):
 
         vertex_list = self.absolute_vertex_list
         if destination is None:
@@ -500,6 +581,8 @@ class Quad(Primitive):
         cv.line(destination, vertex_list[1].to_tuple(), vertex_list[3].to_tuple(), (255, 0, 0), 2)
         cv.line(destination, vertex_list[2].to_tuple(), vertex_list[1].to_tuple(), (255, 0, 0), 2)
 
+        if draw_bbox:
+            self.draw_bbox(destination)
 
 class Triangle(Primitive):
 
@@ -510,7 +593,7 @@ class Triangle(Primitive):
         self.element_type = element_type
 
 
-    def draw_annotation(self, destination=None):
+    def draw_annotation(self, draw_bbox=False, destination=None):
 
         vertex_list = self.absolute_vertex_list
         if destination is None:
@@ -521,22 +604,38 @@ class Triangle(Primitive):
         cv.line(destination, vertex_list[1].to_tuple(), vertex_list[2].to_tuple(), (255, 0, 0), 2)
         cv.line(destination, vertex_list[2].to_tuple(), vertex_list[0].to_tuple(), (255, 0, 0), 2)
 
+        if draw_bbox:
+            self.draw_bbox(destination)
 
 class PointCommand(Command):
 
     def __init__(self, element_type, sample_id, center, parent=None, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None, image_dir=None):
+                 scene_texture=None, image_dir=None,scale_factor=1.0):
         super().__init__(sample_id, points=[center], parent=parent, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
                          scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.element_type = element_type
+        self.scale_factor = scale_factor
 
-    def draw_annotation(self, destination=None):
+    def draw_annotation(self, draw_bbox=False,destination=None):
         vertex_list = self.absolute_vertex_list
         if destination is None:
             destination = self.texture
             vertex_list = self.vertex_list
 
         cv.circle(destination, vertex_list[0].to_tuple(), 4, (255, 0, 0), 2)
+
+        if draw_bbox:
+            self.draw_bbox(destination)
+
+    def _calculate_bbox(self):
+        if not self.scene_element:
+            self.minx, self.miny = 0, 0
+            self.maxx, self.maxy = self.width, self.height
+        else:
+            factor = self.scale_factor * (self.width * consts.POINT_COMMAND_BBOX_FACTOR  + self.height * consts.POINT_COMMAND_BBOX_FACTOR )/2
+            self.minx, self.miny = (self.absolute_center-Point(factor,factor)).to_tuple()
+            self.maxx, self.maxy = (self.absolute_center+Point(factor,factor)).to_tuple()
+
 
     def set_parent(self, value):
         a = value.contains(self)
@@ -549,12 +648,13 @@ class PointCommand(Command):
 class LineCommand(Command):
 
     def __init__(self, element_type, sample_id, p1, p2, parent=None, load_sample=True, width=0, height=0, new_sample=False, scene_element=False,
-                 scene_texture=None, image_dir=None):
+                 scene_texture=None, image_dir=None, scale_factor=1.0):
         super().__init__(sample_id, points=[p1, p2], parent=parent, load_sample=load_sample, width=width, height=height, new_sample=new_sample,
                          scene_element=scene_element, scene_texture=scene_texture, image_dir=image_dir)
         self.element_type = element_type
+        self.scale_factor = scale_factor
 
-    def draw_annotation(self, destination=None):
+    def draw_annotation(self, draw_bbox=False,destination=None):
 
         vertex_list = self.absolute_vertex_list
         if destination is None:
@@ -564,11 +664,43 @@ class LineCommand(Command):
         cv.line(destination,vertex_list[0].to_tuple(), vertex_list[1].to_tuple(), (255, 0, 0), 2)
         cv.circle(destination, vertex_list[0].to_tuple(), 4, (0, 255, 0), -1)
         cv.circle(destination, vertex_list[1].to_tuple(), 4, (0, 0, 255), -1)
+        if draw_bbox:
+            self.draw_bbox(destination)
 
     def translate_to(self, pt):
         delta = (pt - self.absolute_vertex_list[0])
         self.translate_by(delta)
         self._calculate_bbox()
+
+
+    def _calculate_bbox(self):
+        if not self.scene_element:
+            self.minx, self.miny = 0, 0
+            self.maxx, self.maxy = self.width, self.height
+        else:
+            super()._calculate_bbox()
+            w = self.maxx - self.minx
+            h = self.maxy - self.miny
+
+            aspect_ratio = 0.00000001
+            try:
+                aspect_ratio = h/w
+            except:
+                pass
+
+            if self.scale_factor != 1.0:
+                pass
+
+            factor = self.scale_factor * (self.width * consts.LINE_COMMAND_BBOX_FACTOR  + self.height * consts.LINE_COMMAND_BBOX_FACTOR) / 2
+            #h < w
+            if aspect_ratio < consts.LINE_COMMAND_BBOX_ASPECT_RATIO:
+                self.miny -= factor
+                self.maxy += factor
+            elif 1/aspect_ratio < consts.LINE_COMMAND_BBOX_ASPECT_RATIO:
+                self.maxx += factor
+                self.minx -= factor
+
+
 
     def set_parent(self, value):
         p1 = self.absolute_vertex_list[0]

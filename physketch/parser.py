@@ -6,7 +6,9 @@ import json
 import logging as log
 import pickle
 from json import dumps, loads, JSONEncoder, JSONDecoder
-
+from os.path import basename,dirname
+from lxml import etree
+import xml.etree.cElementTree as ET
 
 class _PythonObjectEncoder(JSONEncoder):
     def default(self, obj):
@@ -26,7 +28,8 @@ class SampleParser:
 
         if base_path is not None:
             config.DATASET_PATH = base_path
-            path_img = os.path.join(base_path, 'cropped/' + sample_id + '.png')
+            image_dir = os.path.join(base_path, 'cropped/')
+            path_img = os.path.join(image_dir, sample_id + '.png')
             path_annotation = os.path.join(base_path, 'annotated/' + sample_id + '.phyd')
         elif image_dir is not None and annotation_dir is not None:
             path_img = os.path.join(image_dir, sample_id + '.png')
@@ -44,14 +47,14 @@ class SampleParser:
 
         if consts.ANOT_ELEMENT_LIST not in annotation: #elemento
             sample = SampleParser._element_parser_by_type(annotation).parse_annotation(sample_id, annotation,
-                                                                                       image_dir=base_path)
+                                                                                       image_dir=image_dir)
 
         else:  # cenario
             sample = Scene(sample_id,image_dir=image_dir)
 
             for ele in annotation[consts.ANOT_ELEMENT_LIST]:
                 sample.add_element(SampleParser._element_parser_by_type(ele).parse_annotation(sample_id, ele,
-                            is_scene=True, scene_texture=sample.texture, image_dir=image_dir))
+                            is_scene=True, scene_texture=sample.texture,image_dir=image_dir))
 
         return sample
 
@@ -91,6 +94,52 @@ class SampleParser:
         ##### BACKUP
         with open(pathBkp, 'wb+') as outfile:
             pickle.dump(annotation, outfile, -1)
+
+    @staticmethod
+    def save_darkflow_sample(source, save_dir):
+        assert (issubclass(type(source), Scene) or issubclass(type(source), Element))
+        if not os.path.isdir(save_dir):
+            os.mkdir(save_dir)
+
+        height, width, depth = source.texture.shape
+
+        annotation = ET.Element('annotation')
+        ET.SubElement(annotation, 'folder').text = dirname(source.image_path)
+        ET.SubElement(annotation, 'filename').text = basename(source.image_path)
+        ET.SubElement(annotation, 'segmented').text = '0'
+        size = ET.SubElement(annotation, 'size')
+        ET.SubElement(size, 'width').text = str(width)
+        ET.SubElement(size, 'height').text = str(height)
+        ET.SubElement(size, 'depth').text = str(depth)
+
+        if source.is_scene:
+            lista = source.elements
+        else:
+            source.amostra.get_bbox()
+            lista = [source.amostra]
+
+        for ele in lista:
+            ob = ET.SubElement(annotation, 'object')
+            ET.SubElement(ob, 'name').text = ele.element_type
+            ET.SubElement(ob, 'pose').text = 'Unspecified'
+            ET.SubElement(ob, 'truncated').text = '0'
+            ET.SubElement(ob, 'difficult').text = '0'
+            bbox = ET.SubElement(ob, 'bndbox')
+
+            ET.SubElement(bbox, 'xmin').text = str(ele.minx)
+            ET.SubElement(bbox, 'ymin').text = str(ele.miny)
+            ET.SubElement(bbox, 'xmax').text = str(ele.maxx)
+            ET.SubElement(bbox, 'ymax').text = str(ele.maxy)
+
+        xml_str = ET.tostring(annotation)
+        root = etree.fromstring(xml_str)
+        xml_str = etree.tostring(root, pretty_print=True)
+
+        save_path = os.path.join(save_dir, basename(source.image_path).replace('png', 'xml'))
+        with open(save_path, 'wb') as temp_xml:
+            temp_xml.write(xml_str)
+
+
 
     @staticmethod
     def _element_parser_by_type(annotation):
@@ -218,9 +267,11 @@ class PointCommandParser:
 
     @staticmethod
     def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
-
+        scale_factor = 1.0
+        if ANOT_SCALE_FACTOR in ele[ANOT_DESCRIPTOR]:
+            scale_factor =  float(ele[ANOT_DESCRIPTOR][ANOT_SCALE_FACTOR])
         center = Point(ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['x'],ele[consts.ANOT_DESCRIPTOR][consts.ANOT_CENTER]['y'])
-        return PointCommand(ele[consts.ANOT_TIPO_STR], sample_id, center, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir)
+        return PointCommand(ele[consts.ANOT_TIPO_STR], sample_id, center, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir, scale_factor=scale_factor)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):
@@ -228,6 +279,7 @@ class PointCommandParser:
         annotation[ANOT_TIPO_STR] = element.element_type
         annotation[ANOT_CLASS] = ANOT_COMMAND
         annotation[ANOT_DESCRIPTOR] = {}
+        annotation[ANOT_DESCRIPTOR][ANOT_SCALE_FACTOR] = element.scale_factor
         annotation[ANOT_DESCRIPTOR][ANOT_CENTER] = element.absolute_center.annotation
         annotation[ANOT_COLLECTED_POINTS_STR] = collected_points
         annotation[ANOT_PARENT] = element.parent_id
@@ -238,14 +290,16 @@ class LineCommandParser:
 
     @staticmethod
     def parse_annotation(sample_id, ele, is_scene=False, scene_texture=None, image_dir=None):
-
+        scale_factor = 1.0
+        if ANOT_SCALE_FACTOR in ele[ANOT_DESCRIPTOR]:
+            scale_factor = float(ele[ANOT_DESCRIPTOR][ANOT_SCALE_FACTOR])
         p1 = ele[consts.ANOT_DESCRIPTOR][consts.ANOT_P1]
         p1 = Point(int(float(p1['x'])), int(float(p1['y'])))
 
         p2 = ele[consts.ANOT_DESCRIPTOR][consts.ANOT_P2]
         p2 = Point(int(float(p2['x'])), int(float(p2['y'])))
 
-        return LineCommand(ele[consts.ANOT_TIPO_STR], sample_id, p1, p2, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir)
+        return LineCommand(ele[consts.ANOT_TIPO_STR], sample_id, p1, p2, scene_element=is_scene, scene_texture=scene_texture, image_dir=image_dir, scale_factor=scale_factor)
 
     @staticmethod
     def generate_annotation(element,collected_points=None):
@@ -253,6 +307,7 @@ class LineCommandParser:
         annotation[ANOT_TIPO_STR] = element.element_type
         annotation[ANOT_CLASS] = ANOT_COMMAND
         annotation[ANOT_DESCRIPTOR] = {}
+        annotation[ANOT_DESCRIPTOR][ANOT_SCALE_FACTOR] = element.scale_factor
         annotation[ANOT_DESCRIPTOR][ANOT_P1] = element.absolute_vertex_list[0].annotation
         annotation[ANOT_DESCRIPTOR][ANOT_P2] = element.absolute_vertex_list[1].annotation
         annotation[ANOT_COLLECTED_POINTS_STR] = collected_points

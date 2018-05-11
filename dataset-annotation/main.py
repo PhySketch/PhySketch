@@ -15,7 +15,7 @@ def main():
     parser.add_argument("-g", "--generator", help="Executa processo de geração de cenário", action='store_true')
     parser.add_argument("-i", "--input", help="Pasta contendo estrutura /Dataset", required=True)
     parser.add_argument("-s", "--startAt", help="Pula -s imagens", default=0, type=int)
-    #parser.add_argument("-o", "--output", help="Pasta de destino", required=True)
+    parser.add_argument("-o", "--output", help="Pasta de destino", required=False)
     parser.add_argument("-v", "--verbose", help="Verbose", action='store_true')
     args = parser.parse_args()
 
@@ -47,8 +47,8 @@ def main():
         vw = vw.Viewer()
     elif args.generator:
         import scene_generator as sc
-        cfg.OUTPUT_DIR = os.path.join(args.input, "generated")
-        cfg.INPUT_DIR = os.path.join(args.input)
+        cfg.OUTPUT_DIR = args.output
+        cfg.INPUT_DIR = args.input
 
         sc = sc.SceneGenerator()
 
