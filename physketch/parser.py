@@ -21,6 +21,35 @@ class _PythonObjectEncoder(JSONEncoder):
 class SampleParser:
 
     @staticmethod
+    def is_scene(sample_id, base_path=None, image_dir=None, annotation_dir=None):
+        # define base path (regular base structure) or image_dir and annotation dir
+        assert ((base_path is not None and image_dir is None and annotation_dir is None)
+                or (base_path is None and image_dir is not None and annotation_dir is not None))
+
+        if base_path is not None:
+            config.DATASET_PATH = base_path
+            image_dir = os.path.join(base_path, 'cropped/')
+            path_img = os.path.join(image_dir, sample_id + '.png')
+            path_annotation = os.path.join(base_path, 'annotated/' + sample_id + '.phyd')
+        elif image_dir is not None and annotation_dir is not None:
+            path_img = os.path.join(image_dir, sample_id + '.png')
+            path_annotation = os.path.join(annotation_dir, sample_id + '.phyd')
+        else:
+            path_img = os.path.join(config.DATASET_PATH, 'cropped/' + sample_id + '.png')
+            path_annotation = os.path.join(config.DATASET_PATH, 'annotated/' + sample_id + '.phyd')
+
+        if not os.path.isfile(path_img) or not os.path.isfile(path_annotation):
+            log.error("File not found " + path_annotation + " - " + path_img)
+            return
+
+        with open(path_annotation, "r") as infile:
+            annotation = json.load(infile)
+
+        if consts.ANOT_ELEMENT_LIST in annotation:
+            return True
+        return False
+
+    @staticmethod
     def parse_sample(sample_id, base_path=None, image_dir=None, annotation_dir=None):
         #define base path (regular base structure) or image_dir and annotation dir
         assert((base_path is not None and image_dir is None and annotation_dir is None)
