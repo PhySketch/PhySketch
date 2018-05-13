@@ -40,6 +40,24 @@ def area(x):
     else:
         return x[:, 0] * x[:, 1]
 
+def get_iou(k,centroids,points):
+    npoi = points.shape[0]
+    area_p = area(points)
+
+    cen2 = centroids.repeat(npoi, axis=0).reshape(k, npoi, 2)
+    cdiff = points - cen2
+    cidx = np.where(cdiff < 0)
+    cen2[cidx] = points[cidx[1], cidx[2]]
+
+    wh = cen2.prod(axis=2).T  # (k, npoi, 2) -> (npoi, k)
+    dist = 1. - (wh / (area_p[:, np.newaxis] + area(centroids) - wh))  # -> (npoi, k)
+    belongs_to_cluster = np.argmin(dist, axis=1)  # (npoi, k) -> (npoi,)
+    clusters_niou = np.min(dist, axis=1)  # (npoi, k) -> (npoi,)
+    avg_iou = np.mean(1. - clusters_niou)
+
+    print(avg_iou)
+
+
 
 def kmeans_iou(k, centroids, points, iter_count=0, iteration_cutoff=25, feature_size=13):
 
@@ -93,7 +111,7 @@ def kmeans_iou(k, centroids, points, iter_count=0, iteration_cutoff=25, feature_
     \nFound at iteration {} with best average IoU: {} \
     \n{}".format(best_avg_iou_iteration, best_avg_iou, anchors*feature_size))
 
-    return anchors
+    return anchors, best_avg_iou
 
 
 def load_pascal_dataset(datasets):
@@ -129,10 +147,10 @@ def load_pascal_dataset(datasets):
     return np.array(data)
 
 
-
 def load_physketch_dataset(datasets):
     data = []
 
+    i =1
     for dataset in datasets:
         for item in sorted(os.listdir(dataset.annotation_path)):
 
@@ -141,6 +159,11 @@ def load_physketch_dataset(datasets):
 
                 sample = SampleParser.parse_sample(fname, base_path=dataset.base_path)
                 if sample is not None:
+                    i+=1
+                    if i % 500 == 0:
+                        print("Loaded "+str(i)+" images")
+                        #break
+
                     height, width, depth = sample.texture.shape
 
                     if sample.is_scene:
@@ -151,8 +174,8 @@ def load_physketch_dataset(datasets):
 
                     for ele in lista:
                         minx,miny,w,h = ele.bbox
-                        dw = 1. / w
-                        dh = 1. / h
+                        dw = w / width
+                        dh = h / height
 
                         data.append([dw, dh])
 
@@ -173,12 +196,20 @@ if __name__ == "__main__":
     # 8, 0.65114747974, 0.585718648162
     # 9, 0.66393113546, 0.601564171461
 
-    d  = Dataset("generated")
+    d = Dataset("train")
+
+    darkflow_anchor = np.array([[1.3221, 1.73145],[ 3.19275, 4.00944],[ 5.05587, 8.09892], [9.47112, 4.84053], [11.2364, 10.0071]])/13
+    anchors = {}
+    results = []
     physketch_data = load_physketch_dataset([d])
-    for k in range(1,10):
+
+    get_iou(5,darkflow_anchor,physketch_data)
+
+    '''
+    num_cluster = 16
+    for k in range(1,num_cluster):
         # k-means picking the first k points as centroids
         img_size = 1000
-        k = 5
 
         # change this line to match your system.
         source_dir = "/media/RED6/DATA"
@@ -190,7 +221,34 @@ if __name__ == "__main__":
 
         centroids = physketch_data[np.random.choice(np.arange(len(physketch_data)), k, replace=False)]
         # centroids = pascal_data[:k]
-        pascal_anchors = kmeans_iou(k, centroids, physketch_data, iteration_cutoff=200, feature_size=13)
+        physketch_anchors, iou = kmeans_iou(k, centroids, physketch_data, iteration_cutoff=200, feature_size=13)
+        anchors[k] = (physketch_anchors, iou )
+        results.append(iou)
 
+    with open('anchor_result.txt','w') as f:
+        for k in range(1,num_cluster):
+            f.write(str(k)+'  \tIOU: '+str(anchors[k][1])+' anchor: '+str(anchors[k][0])+'\n \n')
 
+    import matplotlib
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Data for plotting
+    t = np.arange(1, num_cluster, 1)
+
+    # Note that using plt.subplots below is equivalent to using
+    # fig = plt.figure() and then ax = fig.add_subplot(111)
+    fig, ax = plt.subplots()
+    ax.plot(t, results)
+    axes = plt.gca()
+    axes.set_ylim([0, 0.8])
+    axes.set_xlim([1, 15])
+
+    ax.set(xlabel='# clusters', ylabel='Média IoU',
+           title='')
+    ax.grid()
+
+    fig.savefig("anchor_result.png")
+    plt.show()
     print('done')
+    '''

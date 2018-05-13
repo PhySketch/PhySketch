@@ -1,7 +1,7 @@
 from darkflow.defaults import argHandler  # Import the default arguments
 import os
 from darkflow.net.build import TFNet
-from PhySketch.physketch.dataset_manager import Dataset
+from physketch.dataset_manager import Dataset
 import logging
 import time
 # -*- coding: utf-8 -*-
@@ -14,6 +14,10 @@ import threading
 import queue
 
 import os
+
+import tensorflow as tf
+from tensorboard import main as tb
+
 import platform
 
 
@@ -39,6 +43,7 @@ class Model:
         self.config_parser = ConfigParser()
         self.dataset_list = []
         self.model_name=''
+        self.model_summary =''
 
 
         try:
@@ -114,6 +119,8 @@ class Model:
             self.yolo_cfg['config'] = os.path.join(self.base_path,self._get_config("darkflow", "config_path"))
             self.yolo_cfg['labels'] = os.path.join(self.base_path,self._get_config("darkflow", "labels"))
             self.yolo_cfg['backup'] = os.path.join(self.base_path,self._get_config("darkflow", "backup_path"))
+            self.yolo_cfg['summary'] = os.path.join(self.base_path,self._get_config("darkflow", "summary"))
+            self.model_summary = self.yolo_cfg['summary']
 
             load, ckpt = self.get_last_ckpt()
             if str2bool(self._get_config("darkflow", "load_pretrain_model")) and load is None:
@@ -139,6 +146,8 @@ class Model:
         self._tfnet.train(stop_event)
 
 
+
+
 def main():
     parser = argparse.ArgumentParser(description='Ferramenta de treinamento do PhySketch Darkflow')
     parser.add_argument("-s", "--src", help="Pasta contendo modelos", required=True)
@@ -160,18 +169,20 @@ def main():
 
     basic_yolo_config = config._sections['darkflow']
     basic_yolo_config['gpu'] = float(basic_yolo_config['gpu'])
+    basic_yolo_config['gpuName'] = basic_yolo_config['gpuName']
     basic_yolo_config['batch'] = int(basic_yolo_config['batch'])
     basic_yolo_config['epoch'] = int(basic_yolo_config['epoch'])
     basic_yolo_config['save'] = int(basic_yolo_config['save'])
-    basic_yolo_config['lr'] = float(basic_yolo_config['lr'])
+    #basic_yolo_config['lr'] = float(basic_yolo_config['lr'])
     #basic_yolo_config['momentum'] = float(basic_yolo_config['momentum'])
 
     models = queue.Queue()
     for item in sorted(os.listdir(args.src)):
         if not item.startswith('.') and os.path.isdir(os.path.join(args.src, item)):
-            model = Model(os.path.join(args.src, item), basic_yolo_config)
-            if model is not None:
-                models.put(model)
+            if item == 'modelo-3':
+                model = Model(os.path.join(args.src, item), basic_yolo_config)
+                if model is not None:
+                    models.put(model)
 
     training_config = config._sections['phytrain']
     train_time = int(training_config['train_time'])
