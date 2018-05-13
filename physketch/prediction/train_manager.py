@@ -43,7 +43,11 @@ class Model:
         self.config_parser = ConfigParser()
         self.dataset_list = []
         self.model_name=''
+<<<<<<< HEAD
         self.model_summary =''
+=======
+        self.results_path = ''
+>>>>>>> a50cf1d32da290dbc47b4e27ee7080b29faa3b84
 
 
         try:
@@ -122,6 +126,8 @@ class Model:
             self.yolo_cfg['summary'] = os.path.join(self.base_path,self._get_config("darkflow", "summary"))
             self.model_summary = self.yolo_cfg['summary']
 
+            self.results_path = os.path.join(self.base_path,'results/')
+
             load, ckpt = self.get_last_ckpt()
             if str2bool(self._get_config("darkflow", "load_pretrain_model")) and load is None:
                 self.yolo_cfg['load'] = self._get_config("darkflow", "pretrain_model_weights")
@@ -140,9 +146,18 @@ class Model:
     def loaded(self):
         return self._loaded
 
+    def predict(self, image, threshold=0.1):
+        self.yolo_cfg['threshold'] = threshold
+
+        if self._tfnet is None:
+            self._tfnet = TFNet(self.yolo_cfg)
+
+        return self._tfnet.return_predict(image)
+
     def train(self, stop_event):
         self._loadModel()
-        self._tfnet = TFNet(self.yolo_cfg)
+        if self._tfnet is None:
+            self._tfnet = TFNet(self.yolo_cfg)
         self._tfnet.train(stop_event)
 
 

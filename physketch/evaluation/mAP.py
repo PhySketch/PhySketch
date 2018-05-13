@@ -5,7 +5,7 @@ import glob
 import json
 import os
 import shutil
-from utils import *
+from .utils import *
 
 FORMAT_PHYD = 0
 FORMAT_YOLO_JSON = 1
@@ -87,15 +87,19 @@ class mAP():
         gt_list.sort()
         # dictionary with counter per class
 
+        i = 0
         for txt_file in gt_list:
             # print(txt_file)
             file_id = txt_file.split(".", 1)[0]
             file_id = os.path.basename(os.path.normpath(file_id))
+            if not SampleParser.is_scene(file_id, image_dir=self.ground_truth_image_path,
+                                         annotation_dir=self.ground_truth_path):
+                continue
             # check if there is a correspondent predicted objects file
             if not os.path.exists(os.path.join(self.prediction_path, file_id + self.prediction_ext)):
                 print("Warning. Prediction file not found: " + os.path.join(self.prediction_path, file_id + self.prediction_ext))
                 continue
-
+            i +=1
             self.ground_truth_files_list.append(txt_file)
 
             lines_list = normalize_file(txt_file, self.ground_truth_format, True,
@@ -134,6 +138,11 @@ class mAP():
         # let's sort the classes alphabetically
         self.gt_classes = sorted(gt_classes)
         self.n_classes = len(gt_classes)
+
+
+        print("\t\t Ground truth samples: ",i)
+        print("\t\t Ground truth classes: ",self.n_classes)
+
 
     def _read_predicted(self):
         pred_files_list = glob.glob(os.path.join(self.prediction_path, '*' + self.prediction_ext))
@@ -343,7 +352,7 @@ class mAP():
             mAP = sum_AP / self.n_classes
             text = "mAP = {0:.2f}%".format(mAP * 100)
             results_file.write(text + "\n")
-            print(text)
+            print("\t",text)
             self.mAP = mAP
 
         # remove the tmp_files directory
@@ -457,9 +466,10 @@ class mAP():
                 text += ", fp:" + str(n_pred - self.count_true_positives[class_name]) + ")\n"
                 results_file.write(text)
 
-
-mAP('/Users/zulli/Documents/PhySketch/Dataset/generated/annotated',
-    '/Users/zulli/Documents/PhySketch/Dataset/generated/predict',
-    '/Users/zulli/Documents/PhySketch/Dataset/generated/temp',
-    '/Users/zulli/Documents/PhySketch/Dataset/generated/results',
-    ground_truth_image_path='/Users/zulli/Documents/PhySketch/Dataset/generated/cropped')
+'''
+    mAP('/Users/zulli/Documents/PhySketch/Dataset/generated/annotated',
+        '/Users/zulli/Documents/PhySketch/Dataset/generated/predict',
+        '/Users/zulli/Documents/PhySketch/Dataset/generated/temp',
+        '/Users/zulli/Documents/PhySketch/Dataset/generated/results',
+        ground_truth_image_path='/Users/zulli/Documents/PhySketch/Dataset/generated/cropped')
+'''

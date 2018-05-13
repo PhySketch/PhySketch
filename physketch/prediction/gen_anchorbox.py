@@ -221,6 +221,7 @@ if __name__ == "__main__":
 
         centroids = physketch_data[np.random.choice(np.arange(len(physketch_data)), k, replace=False)]
         # centroids = pascal_data[:k]
+<<<<<<< HEAD
         physketch_anchors, iou = kmeans_iou(k, centroids, physketch_data, iteration_cutoff=200, feature_size=13)
         anchors[k] = (physketch_anchors, iou )
         results.append(iou)
@@ -252,3 +253,11 @@ if __name__ == "__main__":
     plt.show()
     print('done')
     '''
+=======
+        pascal_anchors = kmeans_iou(k, centroids, physketch_data, iteration_cutoff=200, feature_size=13)
+
+
+    print('done')
+
+    
+>>>>>>> a50cf1d32da290dbc47b4e27ee7080b29faa3b84
