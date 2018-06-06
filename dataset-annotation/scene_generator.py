@@ -12,8 +12,8 @@ from time import time
 
 SCENE_WIDTH = 1000
 SCENE_HEIGHT = 1000
-QT_SCENE = 100
-START_SCENE = 0
+QT_SCENE = 7800
+START_SCENE = 1
 
 class SceneGenerator():
 
@@ -55,7 +55,7 @@ class SceneGenerator():
 
             print("\n----\nSCENE ",str(i))
             bins = SG_MAX_ELEMENT - SG_MIN_ELEMENT + 1
-            actual_scene = i-START_SCENE
+            actual_scene = i
 
             num = SG_MIN_ELEMENT + math.floor((actual_scene*bins)/QT_SCENE)
 

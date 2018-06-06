@@ -21,11 +21,9 @@ class _PythonObjectEncoder(JSONEncoder):
 class SampleParser:
 
     @staticmethod
-    def is_scene(sample_id, base_path=None, image_dir=None, annotation_dir=None):
-        # define base path (regular base structure) or image_dir and annotation dir
+    def get_paths(sample_id, base_path=None, image_dir=None, annotation_dir=None):
         assert ((base_path is not None and image_dir is None and annotation_dir is None)
                 or (base_path is None and image_dir is not None and annotation_dir is not None))
-
         if base_path is not None:
             config.DATASET_PATH = base_path
             image_dir = os.path.join(base_path, 'cropped/')
@@ -37,6 +35,56 @@ class SampleParser:
         else:
             path_img = os.path.join(config.DATASET_PATH, 'cropped/' + sample_id + '.png')
             path_annotation = os.path.join(config.DATASET_PATH, 'annotated/' + sample_id + '.phyd')
+
+        return path_img, path_annotation
+
+    @staticmethod
+    def get_command_number(sample_id, base_path=None, image_dir=None, annotation_dir=None):
+        # define base path (regular base structure) or image_dir and annotation dir
+
+        path_img, path_annotation = SampleParser.get_paths(sample_id, base_path, image_dir, annotation_dir)
+
+        if not os.path.isfile(path_img) or not os.path.isfile(path_annotation):
+            log.error("File not found " + path_annotation + " - " + path_img)
+            return
+
+        with open(path_annotation, "r") as infile:
+            annotation = json.load(infile)
+
+        if consts.ANOT_ELEMENT_LIST in annotation:
+            i = 0
+            for ele in annotation[consts.ANOT_ELEMENT_LIST]:
+                if ele[consts.ANOT_CLASS] == consts.ANOT_COMMAND:
+                    i+=1
+            return i
+        return None
+
+    @staticmethod
+    def get_primitve_number(sample_id, base_path=None, image_dir=None, annotation_dir=None):
+        # define base path (regular base structure) or image_dir and annotation dir
+
+        path_img, path_annotation = SampleParser.get_paths(sample_id, base_path,image_dir,annotation_dir)
+
+        if not os.path.isfile(path_img) or not os.path.isfile(path_annotation):
+            log.error("File not found " + path_annotation + " - " + path_img)
+            return
+
+        with open(path_annotation, "r") as infile:
+            annotation = json.load(infile)
+
+        if consts.ANOT_ELEMENT_LIST in annotation:
+            i = 0
+            for ele in annotation[consts.ANOT_ELEMENT_LIST]:
+                if ele[consts.ANOT_CLASS] == consts.ANOT_PRIMITIVE:
+                    i+=1
+            return i
+        return None
+
+    @staticmethod
+    def is_scene(sample_id, base_path=None, image_dir=None, annotation_dir=None):
+        # define base path (regular base structure) or image_dir and annotation dir
+
+        path_img, path_annotation = SampleParser.get_paths(sample_id, base_path, image_dir, annotation_dir)
 
         if not os.path.isfile(path_img) or not os.path.isfile(path_annotation):
             log.error("File not found " + path_annotation + " - " + path_img)
@@ -52,20 +100,7 @@ class SampleParser:
     @staticmethod
     def parse_sample(sample_id, base_path=None, image_dir=None, annotation_dir=None):
         #define base path (regular base structure) or image_dir and annotation dir
-        assert((base_path is not None and image_dir is None and annotation_dir is None)
-        or (base_path is None and image_dir is not None and annotation_dir is not None))
-
-        if base_path is not None:
-            config.DATASET_PATH = base_path
-            image_dir = os.path.join(base_path, 'cropped/')
-            path_img = os.path.join(image_dir, sample_id + '.png')
-            path_annotation = os.path.join(base_path, 'annotated/' + sample_id + '.phyd')
-        elif image_dir is not None and annotation_dir is not None:
-            path_img = os.path.join(image_dir, sample_id + '.png')
-            path_annotation = os.path.join(annotation_dir, sample_id + '.phyd')
-        else:
-            path_img = os.path.join(config.DATASET_PATH, 'cropped/' + sample_id + '.png')
-            path_annotation = os.path.join(config.DATASET_PATH, 'annotated/' + sample_id + '.phyd')
+        path_img, path_annotation = SampleParser.get_paths(sample_id, base_path, image_dir, annotation_dir)
 
         if not os.path.isfile(path_img) or not os.path.isfile(path_annotation):
             log.error("File not found " + path_annotation + " - " + path_img)
@@ -145,7 +180,7 @@ class SampleParser:
             lista = source.elements
         else:
             source.amostra.get_bbox()
-            lista = [source.amostra]
+            lista = [source]
 
         for ele in lista:
             ob = ET.SubElement(annotation, 'object')
@@ -167,7 +202,7 @@ class SampleParser:
         save_path = os.path.join(save_dir, basename(source.image_path).replace('png', 'xml'))
         with open(save_path, 'wb') as temp_xml:
             temp_xml.write(xml_str)
-
+        return xml_str
 
 
     @staticmethod

@@ -1,15 +1,13 @@
-DATASET_PATH = '/Users/zulli/Documents/PhySketch/PhySketch/Dataset'
+DATASET_PATH = 'C:\\Users\\sketc\\PhySketch\\Dataset'
 DATASET_ORIGINAL = 'PhySketchOriginal'
-DATASET_PATH_LIST =['/Users/zulli/Documents/PhySketch/PhySketch/experiments/Dataset']
+DATASET_PATH_LIST =['C:\\Users\\sketc\\PhySketch\\experiments\\Dataset']
 ANNOTATION_DIR = 'annotated'
 ANNOTATION_DARKFLOW_DIR = 'annotation-darkflow'
 CROPPED_DIR = 'cropped'
 AUDIT_DIR = 'annotated/audit'
 ANNOTATION_BKP_DIR = 'annotated/bkp'
 
-SCENE_GEN_BACKGROUND_PATH = '/Users/zulli/Documents/PhySketch/PhySketch/experiments/scene-background'
-
-SCENE_GEN_ELEMENT_CHANCE = 0.5
+SCENE_GEN_BACKGROUND_PATH = 'C:\\Users\\sketc\\PhySketch\\experiments\\scene-background'
 
 
 '''SCENE GENERATION - PRIMITIVES'''

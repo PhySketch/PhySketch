@@ -15,8 +15,8 @@ class mAP():
 
     def __init__(self, ground_truth_path, prediction_path, temp_path, results_path, ground_truth_format=FORMAT_PHYD,
                  prediction_format=FORMAT_YOLO_JSON, ground_truth_image_path=None, prediction_image_path=None,
-                 save_plot=True,
-                 class_ignore=[], MINOVERLAP=0.5, verbose=False):
+                 save_plot=True, dict_convert_class={},
+                 class_ignore=[], MINOVERLAP=0.5, verbose=False, grount_truth_file_list=None, prediction_file_list=None):
 
         self.ap_dictionary = {}
         self.n_classes = 0
@@ -25,6 +25,8 @@ class mAP():
 
         self.mAP = -1
 
+        self.save_plot = save_plot
+
         self.temp_path = os.path.normpath(temp_path)
         self.results_path = os.path.normpath(results_path)
         self.ground_truth_path = os.path.normpath(ground_truth_path)
@@ -32,11 +34,15 @@ class mAP():
 
         self.MINOVERLAP = MINOVERLAP
 
+        self.dict_convert_class = dict_convert_class
         self.ground_truth_ext = '.phyd' if ground_truth_format == FORMAT_PHYD else '.json'
         self.prediction_ext = '.phyd' if prediction_format == FORMAT_PHYD else '.json'
 
         self.ground_truth_format = ground_truth_format
         self.prediction_format = prediction_format
+
+        self.grount_truth_file_list = grount_truth_file_list
+        self.prediction_file_list = prediction_file_list
 
         assert ((
                         self.prediction_format == FORMAT_PHYD and prediction_image_path is not None) or self.prediction_format != FORMAT_PHYD)
@@ -62,9 +68,14 @@ class mAP():
         self._calculate_AP()
         self._count_pred()
 
-        if save_plot:
+
+        if self.save_plot:
             self._draw_plot_ground_truth()
-            self._draw_plot_predicted()
+            try:
+                self._draw_plot_predicted()
+            except:
+                print("ERRO DRAW PLOT PREDICTED")
+                pass
             self._draw_plot_mAP()
 
         self._write_results_ground_truth()
@@ -83,8 +94,12 @@ class mAP():
         os.makedirs(self.results_path + "/classes")
 
     def _read_ground_truth(self):
-        gt_list = glob.glob(os.path.join(self.ground_truth_path, '*' + self.ground_truth_ext))
+        if self.grount_truth_file_list is not None:
+            gt_list = self.grount_truth_file_list
+        else:
+            gt_list = glob.glob(os.path.join(self.ground_truth_path, '*' + self.ground_truth_ext))
         gt_list.sort()
+
         # dictionary with counter per class
 
         i = 0
@@ -97,7 +112,7 @@ class mAP():
                 continue
             # check if there is a correspondent predicted objects file
             if not os.path.exists(os.path.join(self.prediction_path, file_id + self.prediction_ext)):
-                print("Warning. Prediction file not found: " + os.path.join(self.prediction_path, file_id + self.prediction_ext))
+                #print("Warning. Prediction file not found: " + os.path.join(self.prediction_path, file_id + self.prediction_ext))
                 continue
             i +=1
             self.ground_truth_files_list.append(txt_file)
@@ -113,7 +128,18 @@ class mAP():
                     # check if class is in the ignore list, if yes skip
                     if class_name in self.class_ignore:
                         continue
+
                     bbox = left + " " + top + " " + right + " " + bottom
+
+                    if class_name in self.dict_convert_class:
+                        class_name_parent = self.dict_convert_class[class_name]
+                        bounding_boxes.append({"class_name": class_name_parent, "bbox": bbox, "used": False})
+                        if class_name_parent in self.gt_counter_per_class:
+                            self.gt_counter_per_class[class_name_parent] += 1
+                        else:
+                            # if class didn't exist yet
+                            self.gt_counter_per_class[class_name_parent] = 1
+
                     bounding_boxes.append({"class_name": class_name, "bbox": bbox, "used": False})
                     # count that object
                     if class_name in self.gt_counter_per_class:
@@ -145,7 +171,10 @@ class mAP():
 
 
     def _read_predicted(self):
-        pred_files_list = glob.glob(os.path.join(self.prediction_path, '*' + self.prediction_ext))
+        if self.prediction_file_list is not None:
+            pred_files_list = self.prediction_file_list
+        else:
+            pred_files_list = glob.glob(os.path.join(self.prediction_path, '*' + self.prediction_ext))
         pred_files_list.sort()
 
         for class_index, class_name in enumerate(self.gt_classes):
@@ -168,6 +197,13 @@ class mAP():
                 for line in lines:
                     try:
                         tmp_class_name, confidence, left, top, right, bottom = line.split()
+
+                        if tmp_class_name in self.dict_convert_class:
+                            tmp_class_name_parent = self.dict_convert_class[tmp_class_name]
+                            if tmp_class_name_parent == class_name:
+                                # print("match")
+                                bbox = left + " " + top + " " + right + " " + bottom
+                                bounding_boxes.append({"confidence": confidence, "file_id": file_id, "bbox": bbox})
 
                         if tmp_class_name == class_name:
                             # print("match")
@@ -321,29 +357,29 @@ class mAP():
                 """
                  Draw plot
                 """
-
-                plt.plot(rec, prec, '-o')
-                plt.fill_between(mrec, 0, mprec, alpha=0.2, edgecolor='r')
-                # set window title
-                fig = plt.gcf()  # gcf - get current figure
-                fig.canvas.set_window_title('AP ' + class_name)
-                # set plot title
-                plt.title('class: ' + text)
-                # plt.suptitle('This is a somewhat long figure title', fontsize=16)
-                # set axis titles
-                plt.xlabel('Recall')
-                plt.ylabel('Precision')
-                # optional - set axes
-                axes = plt.gca()  # gca - get current axes
-                axes.set_xlim([0.0, 1.0])
-                axes.set_ylim([0.0, 1.05])  # .05 to give some extra space
-                # Alternative option -> wait for button to be pressed
-                # while not plt.waitforbuttonpress(): pass # wait for key display
-                # Alternative option -> normal display
-                # plt.show()
-                # save the plot
-                fig.savefig(os.path.join(self.results_path, "classes", class_name + ".png"))
-                plt.cla()# clear axes for next plot
+                if self.save_plot:
+                    plt.plot(rec, prec, '-o')
+                    plt.fill_between(mrec, 0, mprec, alpha=0.2, edgecolor='r')
+                    # set window title
+                    fig = plt.gcf()  # gcf - get current figure
+                    fig.canvas.set_window_title('AP ' + class_name)
+                    # set plot title
+                    plt.title('class: ' + text)
+                    # plt.suptitle('This is a somewhat long figure title', fontsize=16)
+                    # set axis titles
+                    plt.xlabel('Recall')
+                    plt.ylabel('Precision')
+                    # optional - set axes
+                    axes = plt.gca()  # gca - get current axes
+                    axes.set_xlim([0.0, 1.0])
+                    axes.set_ylim([0.0, 1.05])  # .05 to give some extra space
+                    # Alternative option -> wait for button to be pressed
+                    # while not plt.waitforbuttonpress(): pass # wait for key display
+                    # Alternative option -> normal display
+                    # plt.show()
+                    # save the plot
+                    fig.savefig(os.path.join(self.results_path, "classes", class_name + ".png"))
+                    plt.cla()# clear axes for next plot
 
                 # if show_animation:
                 #    cv2.destroyAllWindows()

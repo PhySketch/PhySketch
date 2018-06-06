@@ -1,10 +1,10 @@
+﻿# -*- coding: utf-8 -*-
 from darkflow.defaults import argHandler  # Import the default arguments
 import os
 from darkflow.net.build import TFNet
 from physketch.dataset_manager import Dataset
 import logging
 import time
-# -*- coding: utf-8 -*-
 import argparse
 import sys
 import logging as log
@@ -19,7 +19,13 @@ import tensorflow as tf
 from tensorboard import main as tb
 
 import platform
+import datetime
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+
+import traceback
 
 CFG_FILENAME = 'phy-train.cfg'
 
@@ -43,12 +49,8 @@ class Model:
         self.config_parser = ConfigParser()
         self.dataset_list = []
         self.model_name=''
-<<<<<<< HEAD
         self.model_summary =''
-=======
         self.results_path = ''
->>>>>>> a50cf1d32da290dbc47b4e27ee7080b29faa3b84
-
 
         try:
             self._loadModel()
@@ -124,6 +126,7 @@ class Model:
             self.yolo_cfg['labels'] = os.path.join(self.base_path,self._get_config("darkflow", "labels"))
             self.yolo_cfg['backup'] = os.path.join(self.base_path,self._get_config("darkflow", "backup_path"))
             self.yolo_cfg['summary'] = os.path.join(self.base_path,self._get_config("darkflow", "summary"))
+
             self.model_summary = self.yolo_cfg['summary']
 
             self.results_path = os.path.join(self.base_path,'results/')
@@ -146,21 +149,57 @@ class Model:
     def loaded(self):
         return self._loaded
 
-    def predict(self, image, threshold=0.1):
+    def predict(self, image, threshold=0.1, gpuUsage=0.8):
         self.yolo_cfg['threshold'] = threshold
+        self.yolo_cfg['gpu'] = gpuUsage
 
         if self._tfnet is None:
             self._tfnet = TFNet(self.yolo_cfg)
 
         return self._tfnet.return_predict(image)
 
-    def train(self, stop_event):
+    def train(self, stop_event, train_time):
+
         self._loadModel()
+        filename = os.path.join(self.results_path,"train-log-"+
+                                self.model_name + datetime.datetime.now().strftime("%Y-%m-%d-%H-%M") + ".txt")
         if self._tfnet is None:
             self._tfnet = TFNet(self.yolo_cfg)
-        self._tfnet.train(stop_event)
+
+        
+        self._tfnet.train(stop_event,filename=filename,train_time=train_time,model_name=self.model_name)
+
+        self._tfnet = None
 
 
+def send_email_physketch(assunto, corpo):
+    try:
+        msg = MIMEMultipart()
+
+        # setup the parameters of the message
+        password = "PhySketch2018"
+        msg['From'] = "physketch@gmail.com"
+        msg['To'] = "rafael.zulli0@gmail.com"
+        msg['Subject'] = assunto
+
+        # add in the message body
+        msg.attach(MIMEText(corpo, 'plain'))
+
+        # create server
+        server = smtplib.SMTP('smtp.gmail.com: 587')
+
+        server.starttls()
+
+        # Login Credentials for sending the mail
+        server.login(msg['From'], password)
+
+        # send the message via the server.
+        server.sendmail(msg['From'], msg['To'], msg.as_string())
+
+        server.quit()
+    except:
+
+        pass
 
 
 def main():
@@ -194,28 +233,56 @@ def main():
     models = queue.Queue()
     for item in sorted(os.listdir(args.src)):
         if not item.startswith('.') and os.path.isdir(os.path.join(args.src, item)):
-            if item == 'modelo-3':
-                model = Model(os.path.join(args.src, item), basic_yolo_config)
-                if model is not None:
-                    models.put(model)
+          
+            model = Model(os.path.join(args.src, item), basic_yolo_config)
+            if model is not None:
+                models.put(model)
+
+    m1 = models.get()
+    m2 = models.get()
+    m3 = models.get()
+    models.put(m3)
+    models.put(m1)
+    models.put(m2)
 
     training_config = config._sections['phytrain']
     train_time = int(training_config['train_time'])
     ckpt_time_diff = int(training_config['ckpt_time_diff'])
     ckpt_wait_time = int(training_config['ckpt_wait_time'])
 
-    while True:
+    p = None
+    stop_event = None
+    try:
+        while True:
 
-        model = models.get()
+            model = models.get()
+            send_email_physketch("INICIANDO TREINAMENTO " + model.model_name,  datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))
+            print("\n\n\n----- INICIANDO TREINAMENTO "+model.model_name+"-----")
+            stop_event = threading.Event()
+            p = threading.Thread(target=model.train, args=(stop_event,train_time))
 
-        print("\n\n\n----- INICIANDO TREINAMENTO "+model.model_name+"-----")
-        stop_event = threading.Event()
-        p = threading.Thread(target=model.train, args=(stop_event,))
+            p.start()
 
-        p.start()
+            time.sleep(train_time)
+            print("----- PARANDO TREINAMENTO " + model.model_name + " -----")
+            stop_event.set()
+            p.join()
 
-        time.sleep(train_time)
+            send_email_physketch("PAROU TREINAMENTO " + model.model_name,
+                                 datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))
 
+            models.put(model)
+
+            print("---------------------------------------------------------------")
+    except KeyboardInterrupt:
+        if p is not None and p.is_alive():
+            stop_event.set()
+            p.join()
+    except Exception as e:
+        send_email_physketch("ERRO TREINAMENTO ",
+                             datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")+ str(e)+ "\n" + traceback.format_exc())
+
+        '''
         load, last_mod = model.get_last_ckpt()
         while load is None:
 
@@ -244,15 +311,10 @@ def main():
                         training_finish = True
                 else:
                     training_finish = True
-
+        
         if not remove_from_list:
-            print("----- PARANDO TREINAMENTO "+model.model_name+" -----")
-            stop_event.set()
-            p.join()
+        '''
 
-            models.put(model)
-
-        print("---------------------------------------------------------------")
 
 if __name__ == '__main__':
     main()

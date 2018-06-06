@@ -146,20 +146,25 @@ class SceneGenerator():
                 i+=1
             element.scale(scl)
 
+
+
             ''' TRANSLATE_X '''
-            low =-self.scene.width / 2 + element.mask.shape[1]
-            high = self.scene.width / 2 - element.mask.shape[1]
+            low = math.floor(-self.scene.width / 2 + element.mask.shape[1])
+            high = math.ceil(self.scene.width / 2 - element.mask.shape[1])
             if low >= high:
                 high = low + 1
 
             x_offset = np.random.randint(low,high, 1)
 
+
             ''' TRANSLATE_Y '''
-            low = -self.scene.height/2 + element.mask.shape[0]
-            high =  self.scene.height/2 - element.mask.shape[0]
+            low = math.floor(-self.scene.height/2 + element.mask.shape[0])
+            high = math.ceil(self.scene.height/2 - element.mask.shape[0])
             if low >= high:
                 high = low + 1
+
             y_offset = np.random.randint(low,high, 1)
+
 
             ''' ROTATE '''
             element.rotate_by(rnd.uniform(-2 * math.pi, 2 * math.pi))
@@ -192,6 +197,7 @@ class SceneGenerator():
                 max_distort = SG_L_COMMAND_MAX_DISTORT
 
             command = copy.deepcopy(selected)
+            command.scene_element = True
 
             i = 0
             area = -1
